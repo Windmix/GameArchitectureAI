@@ -42,11 +42,14 @@
     <ClCompile Include="TimeManager.cpp">
       <Filter>Resource Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="State.cpp">
-      <Filter>Resource Files\states</Filter>
-    </ClCompile>
     <ClCompile Include="FishingState.cpp">
       <Filter>Resource Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="RestingState.cpp">
+      <Filter>Resource Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseGameEntity.cpp">
+      <Filter>Resource Files\entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +64,15 @@
     </ClInclude>
     <ClInclude Include="TimeManager.h">
       <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="RestingState.h">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseGameEntity.h">
+      <Filter>Header Files\entity</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

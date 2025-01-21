@@ -7,6 +7,9 @@ TimeManager::TimeManager()
 	setDuration(getCurrentTime().time_since_epoch());
 	setMilliseconds(std::chrono::duration_cast<std::chrono::milliseconds>(getDuration()).count());
 	setPrevousTime(getCurrentTime());
+
+	float timer = 0.0f;
+	float realTime = 0.0f;
 }
 
 void TimeManager::setCurrentTime(std::chrono::system_clock::time_point currentTime)
