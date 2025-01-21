@@ -128,11 +128,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Fisherman.cpp" />
+    <ClCompile Include="FishingState.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="State.cpp" />
     <ClCompile Include="TimeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fisherman.h" />
+    <ClInclude Include="FishingState.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="TimeManager.h" />
   </ItemGroup>

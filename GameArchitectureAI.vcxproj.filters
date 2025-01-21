@@ -13,27 +13,54 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\states">
+      <UniqueIdentifier>{6df5f38b-2abe-487a-9503-b3a39b4714f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\entity">
+      <UniqueIdentifier>{eb134f48-3527-4ac0-b9f9-7b073774b4a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core">
+      <UniqueIdentifier>{e53daf84-1917-49c6-b696-ceaa92bed2ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\entity">
+      <UniqueIdentifier>{c0a3c978-7551-44ec-ba2a-dffa52a905cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\core">
+      <UniqueIdentifier>{393942bd-e59f-40a8-a410-17376ee0753d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\states">
+      <UniqueIdentifier>{04cea0f2-6724-41b7-8e25-e504a667c134}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TimeManager.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
     <ClCompile Include="Fisherman.cpp">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>Resource Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Resource Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="FishingState.cpp">
+      <Filter>Resource Files\states</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TimeManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="State.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="FishingState.h">
+      <Filter>Header Files\states</Filter>
     </ClInclude>
     <ClInclude Include="Fisherman.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>Header Files\core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
