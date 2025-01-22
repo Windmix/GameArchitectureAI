@@ -127,19 +127,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BaseGameEntity.cpp" />
     <ClCompile Include="Fisherman.cpp" />
-    <ClCompile Include="FishingState.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="RestingState.cpp" />
     <ClCompile Include="TimeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseGameEntity.h" />
     <ClInclude Include="Fisherman.h" />
-    <ClInclude Include="FishingState.h" />
-    <ClInclude Include="main.h" />
-    <ClInclude Include="RestingState.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="TimeManager.h" />
   </ItemGroup>
