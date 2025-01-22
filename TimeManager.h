@@ -11,7 +11,6 @@ private:
 	std::chrono::system_clock::duration duration;
 	long long milliseconds;
 
-
 public:
 	TimeManager();
 
@@ -28,5 +27,4 @@ public:
 
 	void setMilliseconds(long long miliseconds);
 	long long getTimeMilliseconds();
-
 };
