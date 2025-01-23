@@ -1,20 +1,26 @@
 #include "RestingState.h"
 #include "FishingState.h"
 
-void RestingState::handle(std::shared_ptr<Fisherman> fisherman)
+std::shared_ptr<RestingState> RestingState::instance()
 {
-	std::cout << fisherman->getName() << " is resting." << std::endl;
+	static std::shared_ptr<RestingState> restingState = std::make_shared<RestingState>();
+	return restingState;
+}
+
+void RestingState::handle(std::shared_ptr<Fisherman> owner)
+{
+	std::cout << owner->getName() << " is resting." << std::endl;
 
 	//finish resting
-	fisherman->setCurrentState(std::make_shared<FishingState>());
+	owner->setCurrentState(std::make_shared<FishingState>());
 }
 
-void RestingState::enterState(std::shared_ptr<Fisherman> fisherman)
+void RestingState::enterState(std::shared_ptr<Fisherman> owner)
 {
-	std::cout << fisherman->getName() << " starts resting." << std::endl;
+	std::cout << owner->getName() << " starts resting." << std::endl;
 }
 
-void RestingState::exitState(std::shared_ptr<Fisherman> fisherman)
+void RestingState::exitState(std::shared_ptr<Fisherman> owner)
 {
-	std::cout << fisherman->getName() << " stops resting." << std::endl;
+	std::cout << owner->getName() << " stops resting." << std::endl;
 }

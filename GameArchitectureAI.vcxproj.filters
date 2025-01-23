@@ -51,6 +51,9 @@
     <ClCompile Include="BaseGameEntity.cpp">
       <Filter>Resource Files\entity</Filter>
     </ClCompile>
+    <ClCompile Include="MarketState.cpp">
+      <Filter>Resource Files\states</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="State.h">
@@ -73,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="BaseGameEntity.h">
       <Filter>Header Files\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="MarketState.h">
+      <Filter>Header Files\states</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

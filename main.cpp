@@ -2,16 +2,16 @@
 
 int main()
 {
+	
 	TimeManager time;
 
 	float timer = 0.0f;
-	float realTime = 0.0f;
+	static float realTime = 0.0f;
 
-	auto fishingState = std::make_shared <FishingState>();
 	auto fisherman = std::make_shared<Fisherman>();
-	fisherman->setName("Steve");
 	fisherman->setEntityID(1);
-
+	fisherman->setName("Gangdam");
+	fisherman->setCurrentState(FishingState::instance());
 	while(true)
 	{
 		time.setCurrentTime(std::chrono::system_clock::now());
@@ -19,9 +19,11 @@ int main()
 		time.setPrevousTime(time.getCurrentTime());
 		timer += deltaTime.count();
 		realTime += deltaTime.count();
+		
 
-		if (timer >= 2.0f && timer <= 2.1f)
+		if (timer >= 1.0f && timer <= 1.1f)
 		{
+			time.clockInGame.updateTime(deltaTime.count());
 			
 			fisherman->update(fisherman);
 			timer = 0.0f;

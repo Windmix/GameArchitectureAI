@@ -1,14 +1,15 @@
 #include "Fisherman.h"
 #include "state.h"
+#include "FishingState.h"
 #include "cassert"
 
 Fisherman::Fisherman()
 {
 	this->setEntityID(0);
 	this->name = "unnamed";
-	this->currentState = nullptr;
+	this->currentState =FishingState::instance();
 	this->fatigue = 0;
-	this->thirst = 0;
+	this->thirst = 100;
 	this->moneyInBank = 0;
 	this->fishCarried = 0;
 }
@@ -20,26 +21,37 @@ Fisherman::locationType Fisherman::getCurrentLocation()
 {
 	return this->currentLocation;
 }
-void Fisherman::setCurrentState(std::shared_ptr<State> newState)
+void Fisherman::setCurrentState(std::shared_ptr< State<Fisherman>> newState)
 {
-	std::shared_ptr<Fisherman> fisherman = std::make_shared<Fisherman>();
+
 	assert(currentState && newState);
-	currentState->exitState(fisherman);
+	currentState->exitState(shared_from_this());
 	currentState = newState;
-	currentState->enterState(fisherman);
+	currentState->enterState(shared_from_this());
+	
+	
 }
 
-std::shared_ptr<State> Fisherman::getCurrentState()
+std::shared_ptr< State<Fisherman>> Fisherman::getCurrentState()
 {
 	return this->currentState;
 }
 
+void Fisherman::RevertToPrevousState()
+{
+	std::shared_ptr<State<Fisherman>> tempstate = currentState;
+	currentState = previousState;
+	previousState = tempstate;
+}
+
 void Fisherman::update(std::shared_ptr<Fisherman> fisherman)
 {
-	thirst += 1;
-	//this->currentState->enterState(fisherman);
-	//this->currentState->exitState(fisherman);
-	this->currentState->handle(fisherman);
+	thirst -= 1;
+	if (currentState)
+	{
+		this->currentState->handle(shared_from_this());
+	}
+	
 
 	
 }
@@ -64,9 +76,9 @@ unsigned int Fisherman::getFishCarried()
 	return this->fishCarried;
 }
 
-void Fisherman::setMoneyInBank(int money)
+void Fisherman::addMoneyInBank(int money)
 {
-	this->moneyInBank = money;
+	this->moneyInBank += money;
 }
 
 int Fisherman::getMoneyInBank()
@@ -97,6 +109,16 @@ unsigned int Fisherman::getFatigue()
 bool Fisherman::isFishingBagFull()
 {
 	return this->fishCarried >= 10;
+}
+
+bool Fisherman::isThirsty()
+{
+	return this->thirst <= 10;
+}
+
+bool Fisherman::isFatigue()
+{
+	return this->fatigue >= 100;
 }
 
 

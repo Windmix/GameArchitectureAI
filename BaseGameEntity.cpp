@@ -1,31 +1,33 @@
 #include "BaseGameEntity.h"
+#include "assert.h"
+
+unsigned BaseGameEntity::nextValidID = 0;
 
 void BaseGameEntity::setID(int value)
 {
-	if (value <= this->nextValidID)
-	{
-		value = entityID;
-		nextValidID++;
-	}
+	assert(value >= nextValidID && "ID isn ot valid!");
+
+	entityID = value;
+	++nextValidID;
 }
 
 BaseGameEntity::BaseGameEntity()
 {
 	entityID = 0;
-	nextValidID = 1;
-}
-
-BaseGameEntity::BaseGameEntity(int ID)
-{
-	setID(ID);
+	nextValidID = 0;
 }
 
 void BaseGameEntity::setEntityID(unsigned int ID)
 {
-	this->entityID = ID;
+	setID(ID);
 }
 
 unsigned int BaseGameEntity::getEntityID()
 {
 	return this->entityID;
+}
+
+unsigned int BaseGameEntity::getNextValidID()
+{
+	return nextValidID;
 }

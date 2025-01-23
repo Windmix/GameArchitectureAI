@@ -2,11 +2,12 @@
 #include "State.h"
 #include "Fisherman.h"
 
-class RestingState : public State
+class RestingState : public State<Fisherman>
 {
 public:
 
-	void handle(std::shared_ptr<Fisherman> fisherman) override;
-	void enterState(std::shared_ptr<Fisherman> fisherman) override;
-	void exitState(std::shared_ptr<Fisherman> fisherman) override;
+	std::shared_ptr<RestingState> instance();
+	void handle(std::shared_ptr<Fisherman> owner) override;
+	void enterState(std::shared_ptr<Fisherman> owner) override;
+	void exitState(std::shared_ptr<Fisherman> owner) override;
 };

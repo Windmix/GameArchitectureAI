@@ -14,6 +14,17 @@ private:
 
 
 public:
+
+	struct clockInGame
+	{
+		float min = 0.0f;
+		float days = 0.0f;
+		float scaleFactor = 1440.0f;
+		void updateTime(float realTimeSeconds);
+	};
+
+	TimeManager::clockInGame clockInGame;
+
 	TimeManager();
 
 	void setCurrentTime(std::chrono::system_clock::time_point currentTime);
@@ -29,5 +40,6 @@ public:
 
 	void setMilliseconds(long long miliseconds);
 	long long getTimeMilliseconds();
+
 
 };
