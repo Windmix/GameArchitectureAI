@@ -56,7 +56,7 @@ void LemonadeStandState::handle(std::shared_ptr<Fisherman> SPfisherman)
 
 	}
 
-	if (!SPfisherman->isThirsty() && SPfisherman->getWater() >= 90)
+	if (!SPfisherman->isThirsty() && SPfisherman->getWater() >= 180)
 	{
 		if (!SPfisherman->getIsWalking())
 		{

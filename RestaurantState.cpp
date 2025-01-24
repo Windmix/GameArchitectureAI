@@ -80,7 +80,7 @@ void RestaurantState::handle(std::shared_ptr<Fisherman> SPfisherman)
 			SPfisherman->setCurrentState(WalkingState::instance());
 		}
 	}
-	if (!SPfisherman->isHungry() && SPfisherman->getFood() >= 90)
+	if (!SPfisherman->isHungry() && SPfisherman->getFood() >= 180)
 	{
 		std::cout << "\n[name]: " << SPfisherman->getName() << "\n[ID]: " << SPfisherman->getEntityID() <<
 			"\n[Money] " << SPfisherman->getMoneyInBank() << " $\n[fish]: " << SPfisherman->getFishCarried() <<

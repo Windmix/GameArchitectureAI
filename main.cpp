@@ -30,14 +30,16 @@ int main()
 
 		if (timerTick >=  tick && timerTick <= tick + 0.1f)
 		{
-			time.clockInGame.updateTime(deltaTime.count());
+			
 			(timerRefilShop);
 			if (!fisherman->isDead())
 			{
+				time.clockInGame.updateTime(deltaTime.count());
 				fisherman->update(fisherman);
 			}
 			if (fisherman->isDead() && !stopPrint)
 			{
+				time.clockInGame.updateTime(deltaTime.count());
 				std::cout << "\n[name]: " << fisherman->getName() << "\n[ID]: " << fisherman->getEntityID() << "\n*DEAD*\n\n\n\n";
 				stopPrint = true;
 			}
