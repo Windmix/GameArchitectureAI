@@ -2,12 +2,23 @@
 #include "State.h"
 #include "Fisherman.h"
 
-class RestingState : public State<Fisherman>
+
+class RestaurantState : public State<Fisherman>
 {
 public:
-
-	static std::shared_ptr<RestingState> instance();
+	struct roastedFood
+	{
+		int roastedChicken = 13;
+	};
+private:
+	int roastedFoodStock;
+public:
+	RestaurantState();
+	
+	static std::shared_ptr<RestaurantState> instance();
 	void handle(std::shared_ptr<Fisherman> SPfisherman) override;
 	void enterState(std::shared_ptr<Fisherman> SPfisherman) override;
 	void exitState(std::shared_ptr<Fisherman> SPfisherman) override;
+
+	void refilRoastedFoodStock(float time);
 };

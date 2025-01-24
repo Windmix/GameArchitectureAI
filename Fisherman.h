@@ -28,8 +28,12 @@ private:
 	int food;
 	unsigned int fatigue;
 
+	bool isWalking;
+private:
+	std::shared_ptr<State<Fisherman>> randomInstanceGenerator(int num);
 public:
 	Fisherman();
+
 
 	// ID and update
 	void update(std::shared_ptr<Fisherman> fisherman) override;
@@ -48,6 +52,9 @@ public:
 	void addFishCarried(unsigned int fish);
 	unsigned int getFishCarried();
 
+	void eatFood(unsigned int food);
+	int getFood();
+
 	void addMoneyInBank(int money);
 	int getMoneyInBank();
 
@@ -62,5 +69,8 @@ public:
 	bool isThirsty();
 	bool isHungry();
 	bool isFatigue();
-	bool isDying();
+	bool isDead();
+
+	void setIsWalking(bool walking);
+	bool getIsWalking();
 };

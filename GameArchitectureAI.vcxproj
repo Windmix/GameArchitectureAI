@@ -134,8 +134,10 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MarketState.cpp" />
     <ClCompile Include="Restaurant.cpp" />
+    <ClCompile Include="RestaurantState.cpp" />
     <ClCompile Include="RestingState.cpp" />
     <ClCompile Include="TimeManager.cpp" />
+    <ClCompile Include="WalkingState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseGameEntity.h" />
@@ -144,10 +146,11 @@
     <ClInclude Include="LemonadeStandState.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="MarketState.h" />
-    <ClInclude Include="Restaurant.h" />
+    <ClInclude Include="RestaurantState.h" />
     <ClInclude Include="RestingState.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="TimeManager.h" />
+    <ClInclude Include="WalkingState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

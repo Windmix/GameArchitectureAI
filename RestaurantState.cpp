@@ -1,36 +1,35 @@
-#include "LemonadeStandState.h"
-#include "FishingState.h"
+#include "RestaurantState.h"
 #include "MarketState.h"
+#include "LemonadeStandState.h"
 #include "RestingState.h"
+#include "FishingState.h"
 #include "WalkingState.h"
 
-LemonadeStandState::LemonadeStandState()
+RestaurantState::RestaurantState()
 {
-	stockOfLemonade = 10;
+	roastedFoodStock = 10;
 }
 
-std::shared_ptr<LemonadeStandState> LemonadeStandState::instance()
+std::shared_ptr<RestaurantState> RestaurantState::instance()
 {
-	static std::shared_ptr<LemonadeStandState> lemonadeStandState = std::make_shared<LemonadeStandState>();
-    return lemonadeStandState;
+	static std::shared_ptr<RestaurantState> restaurantState = std::make_shared<RestaurantState>();
+    return restaurantState;
 }
 
-void LemonadeStandState::handle(std::shared_ptr<Fisherman> SPfisherman)
+void RestaurantState::handle(std::shared_ptr<Fisherman> SPfisherman)
 {
-	SPfisherman->setCurrentLocation(Fisherman::locationType::lemonadeStand);
+	SPfisherman->IncreaseFatigue(2);
 
-	lemonadeDrink lemonadeDrink;
-
-	if (SPfisherman->getMoneyInBank() > 0 && stockOfLemonade > 0)
+	if (SPfisherman->getMoneyInBank() > 0 && roastedFoodStock > 0)
 	{
-		stockOfLemonade += -1;
-		SPfisherman->addMoneyInBank(-60);
+		SPfisherman->eatFood(33);
+
+		roastedFoodStock += -1;
+		SPfisherman->addMoneyInBank(-40);
 
 		std::cout << "\n[name]: " << SPfisherman->getName() << "\n[ID]: " << SPfisherman->getEntityID() <<
 			"\n[Money] " << SPfisherman->getMoneyInBank() << " $\n[fish]: " << SPfisherman->getFishCarried() <<
-			"\n~ Drinking some lemonade!!\n" << std::endl;
-
-		SPfisherman->drinkWater(lemonadeDrink.drink);
+			"\n~ Eating some delicious roasted chicken\n" << std::endl;
 	}
 	if (SPfisherman->getMoneyInBank() <= 0)
 	{
@@ -53,18 +52,17 @@ void LemonadeStandState::handle(std::shared_ptr<Fisherman> SPfisherman)
 			SPfisherman->setIsWalking(true);
 			SPfisherman->setCurrentState(WalkingState::instance());;
 		}
-
 	}
 
-	if (!SPfisherman->isThirsty() && SPfisherman->getWater() >= 90)
+	if (SPfisherman->isThirsty())
 	{
 		if (!SPfisherman->getIsWalking())
 		{
 			std::cout << "\n[name]: " << SPfisherman->getName() << "\n[ID]: " << SPfisherman->getEntityID() <<
 				"\n[Money] " << SPfisherman->getMoneyInBank() << " $\n[fish]: " << SPfisherman->getFishCarried() <<
-				"\n~ Refreshing! Time to head back to fishing!\n" << std::endl;
+				"\n~ I am really thirsty, I will go to the lemonade stand and get a drink!\n" << std::endl;
 
-			WalkingState::instance()->setDestination(static_cast<int>(Fisherman::locationType::pond));
+			WalkingState::instance()->setDestination(static_cast<int>(Fisherman::locationType::lemonadeStand));
 			SPfisherman->setIsWalking(true);
 			SPfisherman->setCurrentState(WalkingState::instance());
 		}
@@ -82,52 +80,50 @@ void LemonadeStandState::handle(std::shared_ptr<Fisherman> SPfisherman)
 			SPfisherman->setCurrentState(WalkingState::instance());
 		}
 	}
-	if (SPfisherman->isHungry())
+	if (!SPfisherman->isHungry() && SPfisherman->getFood() >= 90)
 	{
-		if (!SPfisherman->getIsWalking())
-		{
-			std::cout << "\n[name]: " << SPfisherman->getName() << "\n[ID]: " << SPfisherman->getEntityID() <<
-				"\n[Money] " << SPfisherman->getMoneyInBank() << " $\n[fish]: " << SPfisherman->getFishCarried() <<
-				"\n~ I am really hungry, I will go to the resturant and get a something to eat!\n" << std::endl;
+		std::cout << "\n[name]: " << SPfisherman->getName() << "\n[ID]: " << SPfisherman->getEntityID() <<
+			"\n[Money] " << SPfisherman->getMoneyInBank() << " $\n[fish]: " << SPfisherman->getFishCarried() <<
+			"\n~ I am so full, heading back to fish!\n" << std::endl;
 
-			WalkingState::instance()->setDestination(static_cast<int>(Fisherman::locationType::restaurant));
-			SPfisherman->setIsWalking(true);
-			SPfisherman->setCurrentState(WalkingState::instance());
-		}
-	}
-}
-
-void LemonadeStandState::enterState(std::shared_ptr<Fisherman> SPfisherman)
-{
-
-	if (SPfisherman->getCurrentLocation() != Fisherman::locationType::lemonadeStand)
-	{
-		std::cout << "\n[name]: " << SPfisherman->getName() << "\n[ID]: " << SPfisherman->getEntityID() << "\n" <<
-			"Ooof.. I am so thirsty, time to get a drink! \n" << std::endl;
-
+		WalkingState::instance()->setDestination(static_cast<int>(Fisherman::locationType::pond));
+		SPfisherman->setIsWalking(true);
 		SPfisherman->setCurrentState(WalkingState::instance());
-		WalkingState::instance()->setDestination(Fisherman::locationType::lemonadeStand);
 	}
 }
 
-void LemonadeStandState::exitState(std::shared_ptr<Fisherman> SPfisherman)
+void RestaurantState::enterState(std::shared_ptr<Fisherman> SPfisherman)
 {
 
-	if (SPfisherman->getCurrentLocation() == Fisherman::locationType::lemonadeStand)
+	if (SPfisherman->getCurrentLocation() != Fisherman::locationType::restaurant)
 	{
 		std::cout << "\n[name]: " << SPfisherman->getName() << "\n[ID]: " << SPfisherman->getEntityID() << "\n" <<
-			"That was refreshing!!, time to get to work!\n" << std::endl;
-
-		/*SPfisherman->setCurrentState(WalkingState::instance());
-		WalkingState::instance()->setDestination(Fisherman::locationType::pond);*/
-
+			"Ooof.. I am so hungry, time get something to eat! \n" << std::endl;
+		SPfisherman->setCurrentLocation(Fisherman::locationType::restaurant);
 	}
 }
 
-void LemonadeStandState::refilLemonadeStock(float time)
+void RestaurantState::exitState(std::shared_ptr<Fisherman> SPfisherman)
+{
+
+	if (SPfisherman->getCurrentLocation() == Fisherman::locationType::restaurant)
+	{
+		std::cout << "\n[name]: " << SPfisherman->getName() << "\n[ID]: " << SPfisherman->getEntityID() << "\n" <<
+			"That was so delicious!!, time to get to work!\n" << std::endl;
+
+	}
+	if (SPfisherman->getCurrentLocation() != Fisherman::locationType::restaurant)
+	{
+		std::cout << "\n[name]: " << SPfisherman->getName() << "\n[ID]: " << SPfisherman->getEntityID() << "\n" <<
+			"Time to get away here whatever I am doing!\n" << std::endl;
+	}
+}
+
+void RestaurantState::refilRoastedFoodStock(float time)
 {
 	if (time >= 10.0f)
 	{
-		stockOfLemonade += 1;
+		this->roastedFoodStock += 1;
 	}
+	
 }

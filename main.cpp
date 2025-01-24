@@ -5,8 +5,10 @@ int main()
 	
 	TimeManager time;
 	LemonadeStandState lemonnadeStand;
-
-
+	
+	
+	float tick = 1.0f;
+	bool stopPrint = false;
 	float timerTick = 0.0f;
 	float timerRefilShop = 0.0f;
 	static float realTime = 0.0f;
@@ -14,7 +16,7 @@ int main()
 	auto fisherman = std::make_shared<Fisherman>();
 	fisherman->setEntityID(1);
 	fisherman->setName("Gangdam");
-	fisherman->setCurrentState(FishingState::instance());
+
 	while(true)
 	{
 		time.setCurrentTime(std::chrono::system_clock::now());
@@ -26,12 +28,22 @@ int main()
 		realTime += deltaTime.count();
 		
 
-		if (timerTick >= 1.0f && timerTick <= 1.1f)
+		if (timerTick >=  tick && timerTick <= tick + 0.1f)
 		{
 			time.clockInGame.updateTime(deltaTime.count());
 			(timerRefilShop);
-			fisherman->update(fisherman);
-			lemonnadeStand.refilLemonadeStock(timerRefilShop);
+			if (!fisherman->isDead())
+			{
+				fisherman->update(fisherman);
+			}
+			if (fisherman->isDead() && !stopPrint)
+			{
+				std::cout << "\n[name]: " << fisherman->getName() << "\n[ID]: " << fisherman->getEntityID() << "\n*DEAD*\n\n\n\n";
+				stopPrint = true;
+			}
+			
+			//lemonnadeStand.refilLemonadeStock(timerRefilShop);
+			
 
 			timerRefilShop = 0.0f;
 			timerTick = 0.0f;

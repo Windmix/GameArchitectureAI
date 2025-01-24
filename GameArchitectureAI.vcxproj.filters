@@ -60,6 +60,12 @@
     <ClCompile Include="Restaurant.cpp">
       <Filter>Resource Files\states</Filter>
     </ClCompile>
+    <ClCompile Include="RestaurantState.cpp">
+      <Filter>Resource Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="WalkingState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="State.h">
@@ -89,7 +95,10 @@
     <ClInclude Include="LemonadeStandState.h">
       <Filter>Header Files\states</Filter>
     </ClInclude>
-    <ClInclude Include="Restaurant.h">
+    <ClInclude Include="RestaurantState.h">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="WalkingState.h">
       <Filter>Header Files\states</Filter>
     </ClInclude>
   </ItemGroup>

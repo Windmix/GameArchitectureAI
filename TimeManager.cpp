@@ -72,5 +72,5 @@ void TimeManager::clockInGame::updateTime(float realTimeSeconds)
 	//	days += 1.0f;
 	//}
 
-	std::cout << "min: " << "[" << std::fixed << std::setprecision(1) << min * 1000000*5*2 << "] " << " days: " << "[" << std::fixed << std::setprecision(1) << days * 1000000*5*2 << "]" << std::endl;
+	std::cout << std::endl << "min: " << "[" << std::fixed << std::setprecision(1) << min * 1000000*5*2 << "] " << " days: " << "[" << std::fixed << std::setprecision(1) << days * 1000000*5*2 << "]" << std::endl;
 }

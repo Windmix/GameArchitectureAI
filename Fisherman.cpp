@@ -1,17 +1,49 @@
 #include "Fisherman.h"
 #include "state.h"
 #include "FishingState.h"
+#include "RestaurantState.h"
+#include "LemonadeStandState.h"
+#include "RestingState.h"
 #include "cassert"
+
+#include <cstdlib> 
+#include <ctime>
+
+std::shared_ptr<State<Fisherman>> Fisherman::randomInstanceGenerator(int num)
+{
+	srand(static_cast<unsigned>(time(0)));
+
+	int randomStateIndex = rand() % num;
+
+	std::shared_ptr<State<Fisherman>> randomState;
+	switch (randomStateIndex)
+	{
+	case 0:
+		return randomState = FishingState::instance();
+	case 1:
+		return randomState = RestaurantState::instance();
+	case 2:
+		return randomState = LemonadeStandState::instance();
+	case 3: 
+		return randomState = RestingState::instance();
+
+	default:
+		break;
+	}
+
+}
 
 Fisherman::Fisherman()
 {
 	this->setEntityID(0);
 	this->name = "unnamed";
-	this->currentState =FishingState::instance();
+	this->currentState = randomInstanceGenerator(4);
 	this->fatigue = 0;
-	this->water = 100;
-	this->moneyInBank = 0;
+	this->water = 200;
+	this->food = 200;
+	this->moneyInBank = 200;
 	this->fishCarried = 0;
+	this->isWalking = false;
 }
 void Fisherman::setCurrentLocation(locationType location)
 {
@@ -25,11 +57,10 @@ void Fisherman::setCurrentState(std::shared_ptr< State<Fisherman>> newState)
 {
 
 	assert(currentState && newState);
-	currentState->exitState(shared_from_this());
+	
+	//currentState->exitState(shared_from_this());
 	currentState = newState;
-	currentState->enterState(shared_from_this());
-	
-	
+	//currentState->enterState(shared_from_this());
 }
 
 std::shared_ptr< State<Fisherman>> Fisherman::getCurrentState()
@@ -46,13 +77,16 @@ void Fisherman::RevertToPrevousState()
 
 void Fisherman::update(std::shared_ptr<Fisherman> fisherman)
 {
-	if(!fisherman->isDying())
+	
 	water -= 3;
 	food -= 1;
 	if (currentState)
 	{
 		this->currentState->handle(shared_from_this());
 	}
+
+	
+	
 	
 
 	
@@ -76,6 +110,16 @@ void Fisherman::addFishCarried(unsigned int fish)
 unsigned int Fisherman::getFishCarried()
 {
 	return this->fishCarried;
+}
+
+void Fisherman::eatFood(unsigned int food)
+{
+	this->food += food;
+}
+
+int Fisherman::getFood()
+{
+	return this->food;
 }
 
 void Fisherman::addMoneyInBank(int money)
@@ -110,7 +154,7 @@ unsigned int Fisherman::getFatigue()
 
 bool Fisherman::isFishingBagFull()
 {
-	return this->fishCarried >= 20;
+	return this->fishCarried >= 10;
 }
 
 bool Fisherman::isThirsty()
@@ -128,9 +172,22 @@ bool Fisherman::isFatigue()
 	return this->fatigue >= 70;
 }
 
-bool Fisherman::isDying()
+bool Fisherman::isDead()
 {
-	return this->fatigue <= 0 || this->water <= 0;
+	if (this->fatigue >= 100 || this->water <= 0)
+		return true;
+	else
+		return false;
+}
+
+void Fisherman::setIsWalking(bool walking)
+{
+	this->isWalking = walking;
+}
+
+bool Fisherman::getIsWalking()
+{
+	return this->isWalking;
 }
 
 
