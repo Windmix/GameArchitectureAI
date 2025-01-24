@@ -130,8 +130,10 @@
     <ClCompile Include="BaseGameEntity.cpp" />
     <ClCompile Include="Fisherman.cpp" />
     <ClCompile Include="FishingState.cpp" />
+    <ClCompile Include="LemonadeStandState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MarketState.cpp" />
+    <ClCompile Include="Restaurant.cpp" />
     <ClCompile Include="RestingState.cpp" />
     <ClCompile Include="TimeManager.cpp" />
   </ItemGroup>
@@ -139,8 +141,10 @@
     <ClInclude Include="BaseGameEntity.h" />
     <ClInclude Include="Fisherman.h" />
     <ClInclude Include="FishingState.h" />
+    <ClInclude Include="LemonadeStandState.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="MarketState.h" />
+    <ClInclude Include="Restaurant.h" />
     <ClInclude Include="RestingState.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="TimeManager.h" />

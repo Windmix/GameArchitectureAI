@@ -54,6 +54,12 @@
     <ClCompile Include="MarketState.cpp">
       <Filter>Resource Files\states</Filter>
     </ClCompile>
+    <ClCompile Include="LemonadeStandState.cpp">
+      <Filter>Resource Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="Restaurant.cpp">
+      <Filter>Resource Files\states</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="State.h">
@@ -78,6 +84,12 @@
       <Filter>Header Files\entity</Filter>
     </ClInclude>
     <ClInclude Include="MarketState.h">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="LemonadeStandState.h">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="Restaurant.h">
       <Filter>Header Files\states</Filter>
     </ClInclude>
   </ItemGroup>

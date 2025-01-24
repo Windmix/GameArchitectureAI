@@ -66,11 +66,11 @@ void TimeManager::clockInGame::updateTime(float realTimeSeconds)
 	min += inGameMinutes;
 	days = min / scaleFactor;
 
-	if(min >= 1440.0f)  // 1 in-game day = 1440 minutes
-	{
-		min = 0.0f;
-		days += 1.0f;
-	}
+	//if(min >= 1440.0f)  // 1 in-game day = 1440 minutes
+	//{
+	//	min = 0.0f;
+	//	days += 1.0f;
+	//}
 
 	std::cout << "min: " << "[" << std::fixed << std::setprecision(1) << min * 1000000*5*2 << "] " << " days: " << "[" << std::fixed << std::setprecision(1) << days * 1000000*5*2 << "]" << std::endl;
 }

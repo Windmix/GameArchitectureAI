@@ -11,7 +11,15 @@ private:
 	void setID(int value);
 
 public:
-	
+	//locations
+	enum locationType
+	{
+		house,
+		pond,
+		lemonadeStand,
+		restaurant,
+		market,
+	};
 
 	BaseGameEntity();
 

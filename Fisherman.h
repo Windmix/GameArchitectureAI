@@ -11,13 +11,7 @@ class State;
 class Fisherman : public BaseGameEntity, public std::enable_shared_from_this<Fisherman>
 {
 public:
-	enum locationType
-	{
-		house,
-		pond,
-		lemonadeStand,
-		market,
-	};
+	
 
 private:
 	std::string name;
@@ -30,38 +24,43 @@ private:
 
 	unsigned int fishCarried;
 	int moneyInBank;
-	unsigned int thirst;
+	int water;
+	int food;
 	unsigned int fatigue;
 
 public:
 	Fisherman();
 
+	// ID and update
+	void update(std::shared_ptr<Fisherman> fisherman) override;
+	void setName(std::string newName);
+	std::string getName();
+
+	// location and state
 	void setCurrentLocation(locationType location);
 	locationType getCurrentLocation();
 
 	void setCurrentState(std::shared_ptr< State<Fisherman>> newtate);
 	std::shared_ptr< State<Fisherman>> getCurrentState();
-
 	void RevertToPrevousState();
 
-	void update(std::shared_ptr<Fisherman> fisherman) override;
-	
-	void setName(std::string newName);
-	std::string getName();
-
+	//Inventory Stuff
 	void addFishCarried(unsigned int fish);
 	unsigned int getFishCarried();
 
 	void addMoneyInBank(int money);
 	int getMoneyInBank();
 
-	void IncreaseThirst(unsigned int thirstLevel);
-	unsigned int getThirst();
+	void drinkWater(unsigned int water);
+	unsigned int getWater();
 
 	void IncreaseFatigue(unsigned int fatigueLevel);
 	unsigned int getFatigue();
 
+	//conditions
 	bool isFishingBagFull();
 	bool isThirsty();
+	bool isHungry();
 	bool isFatigue();
+	bool isDying();
 };

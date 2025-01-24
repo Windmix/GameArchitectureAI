@@ -9,7 +9,7 @@ Fisherman::Fisherman()
 	this->name = "unnamed";
 	this->currentState =FishingState::instance();
 	this->fatigue = 0;
-	this->thirst = 100;
+	this->water = 100;
 	this->moneyInBank = 0;
 	this->fishCarried = 0;
 }
@@ -46,7 +46,9 @@ void Fisherman::RevertToPrevousState()
 
 void Fisherman::update(std::shared_ptr<Fisherman> fisherman)
 {
-	thirst -= 1;
+	if(!fisherman->isDying())
+	water -= 3;
+	food -= 1;
 	if (currentState)
 	{
 		this->currentState->handle(shared_from_this());
@@ -86,14 +88,14 @@ int Fisherman::getMoneyInBank()
 	return this->moneyInBank;
 }
 
-void Fisherman::IncreaseThirst(unsigned int thirstLevel)
+void Fisherman::drinkWater(unsigned int water)
 {
-	this->thirst += thirstLevel;
+	this->water += water;
 }
 
-unsigned int Fisherman::getThirst()
+unsigned int Fisherman::getWater()
 {
-	return this->thirst;
+	return this->water;
 }
 
 void Fisherman::IncreaseFatigue(unsigned int fatigueLevel)
@@ -108,17 +110,27 @@ unsigned int Fisherman::getFatigue()
 
 bool Fisherman::isFishingBagFull()
 {
-	return this->fishCarried >= 10;
+	return this->fishCarried >= 20;
 }
 
 bool Fisherman::isThirsty()
 {
-	return this->thirst <= 10;
+	return this->water <= 30;
+}
+
+bool Fisherman::isHungry()
+{
+	return this->food <= 30;
 }
 
 bool Fisherman::isFatigue()
 {
-	return this->fatigue >= 100;
+	return this->fatigue >= 70;
+}
+
+bool Fisherman::isDying()
+{
+	return this->fatigue <= 0 || this->water <= 0;
 }
 
 

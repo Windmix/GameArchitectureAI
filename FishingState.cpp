@@ -1,6 +1,7 @@
 #include "FishingState.h"
 #include "RestingState.h"
 #include "MarketState.h"
+#include "LemonadeStandState.h"
 
 FishingState::FishingState()
 {
@@ -16,7 +17,7 @@ std::shared_ptr<FishingState> FishingState::instance()
 void FishingState::handle(std::shared_ptr<Fisherman> SPfisherman)
 {
 	SPfisherman->addFishCarried(1);
-	SPfisherman->IncreaseFatigue(1);
+	SPfisherman->IncreaseFatigue(3);
 	std::cout << "\n[name]: " << SPfisherman->getName() << "\n[ID]: " << SPfisherman->getEntityID() << 
 		"\n[Money] " << SPfisherman->getMoneyInBank() << " $\n[fish]: " << SPfisherman->getFishCarried() <<
 		" ~ caught a fish!\n" << std::endl;
@@ -28,11 +29,15 @@ void FishingState::handle(std::shared_ptr<Fisherman> SPfisherman)
 	}
 	if (SPfisherman->isThirsty())
 	{
-		//go drink
+		SPfisherman->setCurrentState(LemonadeStandState::instance());
 	}
 	if (SPfisherman->isFatigue())
 	{
-		//go home to bed
+		SPfisherman->setCurrentState(RestingState::instance());
+	}
+	if (SPfisherman->isDying())
+	{
+		std::cout << "\n[name]: " << SPfisherman->getName() << "\n[ID]: " << SPfisherman->getEntityID() << "*DEAD*\n";
 	}
 	
 }

@@ -4,8 +4,11 @@ int main()
 {
 	
 	TimeManager time;
+	LemonadeStandState lemonnadeStand;
 
-	float timer = 0.0f;
+
+	float timerTick = 0.0f;
+	float timerRefilShop = 0.0f;
 	static float realTime = 0.0f;
 
 	auto fisherman = std::make_shared<Fisherman>();
@@ -17,17 +20,21 @@ int main()
 		time.setCurrentTime(std::chrono::system_clock::now());
 		std::chrono::duration<double> deltaTime = time.getDeltaTime();
 		time.setPrevousTime(time.getCurrentTime());
-		timer += deltaTime.count();
+
+		timerTick += deltaTime.count();
+		timerRefilShop += deltaTime.count();
 		realTime += deltaTime.count();
 		
 
-		if (timer >= 1.0f && timer <= 1.1f)
+		if (timerTick >= 1.0f && timerTick <= 1.1f)
 		{
 			time.clockInGame.updateTime(deltaTime.count());
-			
+			(timerRefilShop);
 			fisherman->update(fisherman);
-			timer = 0.0f;
-		
+			lemonnadeStand.refilLemonadeStock(timerRefilShop);
+
+			timerRefilShop = 0.0f;
+			timerTick = 0.0f;
 		}
 		
 
