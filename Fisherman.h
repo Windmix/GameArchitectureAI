@@ -11,7 +11,6 @@ class State;
 class Fisherman : public BaseGameEntity, public std::enable_shared_from_this<Fisherman>
 {
 public:
-	
 
 private:
 	std::string name;
@@ -21,12 +20,13 @@ private:
 	std::shared_ptr<State<Fisherman>> globalState;
 
 	locationType currentLocation;
+	
 
 	unsigned int fishCarried;
 	int moneyInBank;
-	int water;
-	int food;
-	unsigned int fatigue;
+	int water = 200;
+	int food = 200;
+	int fatigue = 200;
 
 	bool isWalking;
 private:
@@ -61,7 +61,8 @@ public:
 	void drinkWater(unsigned int water);
 	unsigned int getWater();
 
-	void IncreaseFatigue(unsigned int fatigueLevel);
+	void IncreaseFatigue(int fatigueLevel);
+	void ResetFatigue(int val);
 	unsigned int getFatigue();
 
 	//conditions

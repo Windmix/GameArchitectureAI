@@ -23,59 +23,67 @@ void LemonadeStandState::handle(std::shared_ptr<Fisherman> SPfisherman)
 
 	if (SPfisherman->getMoneyInBank() > 0 && stockOfLemonade > 0)
 	{
-		stockOfLemonade += -1;
+
 		SPfisherman->addMoneyInBank(-60);
 
-		std::cout << "\n[name]: " << SPfisherman->getName() << "\n[ID]: " << SPfisherman->getEntityID() <<
-			"\n[Money] " << SPfisherman->getMoneyInBank() << " $\n[fish]: " << SPfisherman->getFishCarried() <<
-			"\n~ Drinking some lemonade!!\n" << std::endl;
+		std::cout << " [name]: " << SPfisherman->getName() << " [ID]: " << SPfisherman->getEntityID() <<
+			" [Money] " << SPfisherman->getMoneyInBank() << " $ [fish]: " << SPfisherman->getFishCarried() <<
+			" ~ Drinking some lemonade!! " << std::endl;
 
 		SPfisherman->drinkWater(lemonadeDrink.drink);
 	}
+	if (stockOfLemonade <= 0)
+	{
+		std::cout << " [name]: " << SPfisherman->getName() << " [ID]: " << SPfisherman->getEntityID() <<
+			" [Money] " << SPfisherman->getMoneyInBank() << " $ [fish]: " << SPfisherman->getFishCarried() <<
+			" ~ What the f, the lemonade stock is empty, I guess I go back fishing! " << std::endl;
+
+		WalkingState::instance()->setDestination(static_cast<int>(Fisherman::locationType::pond));
+		SPfisherman->setIsWalking(true);
+		SPfisherman->setCurrentState(WalkingState::instance());
+	}
 	if (SPfisherman->getMoneyInBank() <= 0)
 	{
-		std::cout << "\n[name]: " << SPfisherman->getName() << "\n[ID]: " << SPfisherman->getEntityID() <<
-			"\n[Money] " << SPfisherman->getMoneyInBank() << " $\n[fish]: " << SPfisherman->getFishCarried() <<
-			"\n~ DARN IT! I AM OUT OF MONEY!" << std::endl;
+		std::cout << " [name]: " << SPfisherman->getName() << " [ID]: " << SPfisherman->getEntityID() <<
+			" [Money] " << SPfisherman->getMoneyInBank() << " $ [fish]: " << SPfisherman->getFishCarried() <<
+			" ~ DARN IT! I AM OUT OF MONEY!" << std::endl;
 
 		if (SPfisherman->getFishCarried() <= 0 && !SPfisherman->getIsWalking())
 		{
-			std::cout << " got to work more\n";
+			std::cout << " got to work more ";
 
 			WalkingState::instance()->setDestination(static_cast<int>(Fisherman::locationType::pond));
 			SPfisherman->setIsWalking(true);
 			SPfisherman->setCurrentState(WalkingState::instance());
 		}
+		
 		else
 		{
-			std::cout << " got to sell the fishes I have\n";
+			std::cout << " got to sell the fishes I have ";
 			WalkingState::instance()->setDestination(static_cast<int>(Fisherman::locationType::market));
 			SPfisherman->setIsWalking(true);
-			SPfisherman->setCurrentState(WalkingState::instance());;
+			SPfisherman->setCurrentState(WalkingState::instance());
 		}
-
 	}
 
-	if (!SPfisherman->isThirsty() && SPfisherman->getWater() >= 180)
+	if (!SPfisherman->isThirsty() && SPfisherman->getWater() >= 100)
 	{
 		if (!SPfisherman->getIsWalking())
 		{
-			std::cout << "\n[name]: " << SPfisherman->getName() << "\n[ID]: " << SPfisherman->getEntityID() <<
-				"\n[Money] " << SPfisherman->getMoneyInBank() << " $\n[fish]: " << SPfisherman->getFishCarried() <<
-				"\n~ Refreshing! Time to head back to fishing!\n" << std::endl;
+			std::cout << " [name]: " << SPfisherman->getName() << " [ID]: " << SPfisherman->getEntityID() <<
+				" [Money] " << SPfisherman->getMoneyInBank() << " $ [fish]: " << SPfisherman->getFishCarried() <<
+				" ~ Refreshing! Time to head back to fishing! " << std::endl;
 
-			WalkingState::instance()->setDestination(static_cast<int>(Fisherman::locationType::pond));
-			SPfisherman->setIsWalking(true);
-			SPfisherman->setCurrentState(WalkingState::instance());
+			setRandomWorkInstance(SPfisherman);
 		}
 	}
 	if (SPfisherman->isFatigue())
 	{
 		if (!SPfisherman->getIsWalking())
 		{
-			std::cout << "\n[name]: " << SPfisherman->getName() << "\n[ID]: " << SPfisherman->getEntityID() <<
-				"\n[Money] " << SPfisherman->getMoneyInBank() << " $\n[fish]: " << SPfisherman->getFishCarried() <<
-				"\n~ I am EXHAUSTED, I going to head home and take a nap!\n" << std::endl;
+			std::cout << " [name]: " << SPfisherman->getName() << " [ID]: " << SPfisherman->getEntityID() <<
+				" [Money] " << SPfisherman->getMoneyInBank() << " $ [fish]: " << SPfisherman->getFishCarried() <<
+				" ~ I am EXHAUSTED, I going to head home and take a nap! " << std::endl;
 
 			WalkingState::instance()->setDestination(static_cast<int>(Fisherman::locationType::house));
 			SPfisherman->setIsWalking(true);
@@ -86,9 +94,9 @@ void LemonadeStandState::handle(std::shared_ptr<Fisherman> SPfisherman)
 	{
 		if (!SPfisherman->getIsWalking())
 		{
-			std::cout << "\n[name]: " << SPfisherman->getName() << "\n[ID]: " << SPfisherman->getEntityID() <<
-				"\n[Money] " << SPfisherman->getMoneyInBank() << " $\n[fish]: " << SPfisherman->getFishCarried() <<
-				"\n~ I am really hungry, I will go to the resturant and get a something to eat!\n" << std::endl;
+			std::cout << " [name]: " << SPfisherman->getName() << " [ID]: " << SPfisherman->getEntityID() <<
+				" [Money] " << SPfisherman->getMoneyInBank() << " $ [fish]: " << SPfisherman->getFishCarried() <<
+				" ~ I am really hungry, I will go to the resturant and get a something to eat! " << std::endl;
 
 			WalkingState::instance()->setDestination(static_cast<int>(Fisherman::locationType::restaurant));
 			SPfisherman->setIsWalking(true);
@@ -102,8 +110,8 @@ void LemonadeStandState::enterState(std::shared_ptr<Fisherman> SPfisherman)
 
 	if (SPfisherman->getCurrentLocation() != Fisherman::locationType::lemonadeStand)
 	{
-		std::cout << "\n[name]: " << SPfisherman->getName() << "\n[ID]: " << SPfisherman->getEntityID() << "\n" <<
-			"Ooof.. I am so thirsty, time to get a drink! \n" << std::endl;
+		std::cout << " [name]: " << SPfisherman->getName() << " [ID]: " << SPfisherman->getEntityID() << " " <<
+			"Ooof.. I am so thirsty, time to get a drink!  " << std::endl;
 
 		SPfisherman->setCurrentState(WalkingState::instance());
 		WalkingState::instance()->setDestination(Fisherman::locationType::lemonadeStand);
@@ -115,12 +123,40 @@ void LemonadeStandState::exitState(std::shared_ptr<Fisherman> SPfisherman)
 
 	if (SPfisherman->getCurrentLocation() == Fisherman::locationType::lemonadeStand)
 	{
-		std::cout << "\n[name]: " << SPfisherman->getName() << "\n[ID]: " << SPfisherman->getEntityID() << "\n" <<
-			"That was refreshing!!, time to get to work!\n" << std::endl;
+		std::cout << " [name]: " << SPfisherman->getName() << " [ID]: " << SPfisherman->getEntityID() << " " <<
+			"That was refreshing!!, time to get to work! " << std::endl;
 
 		/*SPfisherman->setCurrentState(WalkingState::instance());
 		WalkingState::instance()->setDestination(Fisherman::locationType::pond);*/
 
+	}
+}
+
+void LemonadeStandState::setRandomWorkInstance(std::shared_ptr<Fisherman> SPfisherman)
+{
+	int interval = 1; // between 0,1
+	srand(static_cast<unsigned>(time(0)));
+
+	int randomDice = rand() % interval;
+
+	switch (randomDice)
+	{
+	case 0:
+	{
+		WalkingState::instance()->setDestination(static_cast<int>(Fisherman::locationType::pond));
+		SPfisherman->setIsWalking(true);
+		SPfisherman->setCurrentState(WalkingState::instance());
+		break;
+	}
+	case 1:
+	{
+		WalkingState::instance()->setDestination(static_cast<int>(Fisherman::locationType::fishingSouvenirShop));
+		SPfisherman->setIsWalking(true);
+		SPfisherman->setCurrentState(WalkingState::instance());
+		break;
+	}
+	default:
+		break;
 	}
 }
 

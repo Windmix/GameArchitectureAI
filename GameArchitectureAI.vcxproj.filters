@@ -66,6 +66,9 @@
     <ClCompile Include="WalkingState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FishSouvenirShopState.cpp">
+      <Filter>Resource Files\states</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="State.h">
@@ -99,6 +102,9 @@
       <Filter>Header Files\states</Filter>
     </ClInclude>
     <ClInclude Include="WalkingState.h">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="FishSouvenirShopState.h">
       <Filter>Header Files\states</Filter>
     </ClInclude>
   </ItemGroup>

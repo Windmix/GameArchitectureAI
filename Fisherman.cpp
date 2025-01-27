@@ -4,6 +4,8 @@
 #include "RestaurantState.h"
 #include "LemonadeStandState.h"
 #include "RestingState.h"
+#include "FishSouvenirShopState.h"
+#include "WalkingState.h"
 #include "cassert"
 
 #include <cstdlib> 
@@ -26,6 +28,9 @@ std::shared_ptr<State<Fisherman>> Fisherman::randomInstanceGenerator(int num)
 		return randomState = LemonadeStandState::instance();
 	case 3: 
 		return randomState = RestingState::instance();
+	case 4:
+		return randomState = FishSouvenirShopState::instance();
+
 
 	default:
 		break;
@@ -37,7 +42,7 @@ Fisherman::Fisherman()
 {
 	this->setEntityID(0);
 	this->name = "unnamed";
-	this->currentState = randomInstanceGenerator(4);
+	this->currentState = randomInstanceGenerator(5);
 	this->fatigue = 0;
 	this->water = 200;
 	this->food = 200;
@@ -142,9 +147,14 @@ unsigned int Fisherman::getWater()
 	return this->water;
 }
 
-void Fisherman::IncreaseFatigue(unsigned int fatigueLevel)
+void Fisherman::IncreaseFatigue(int fatigueLevel)
 {
 	this->fatigue += fatigueLevel;
+}
+
+void Fisherman::ResetFatigue(int val)
+{
+	this->fatigue = val;
 }
 
 unsigned int Fisherman::getFatigue()
@@ -174,7 +184,7 @@ bool Fisherman::isFatigue()
 
 bool Fisherman::isDead()
 {
-	if (this->fatigue >= 100 || this->water <= 0)
+	if (this->fatigue >= 100 || this->water <= 0 || this->food <= 0)
 		return true;
 	else
 		return false;

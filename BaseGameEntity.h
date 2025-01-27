@@ -20,6 +20,7 @@ public:
 		lemonadeStand = 3,
 		restaurant = 4,
 		market = 2,
+		fishingSouvenirShop = 1,
 	};
 
 	BaseGameEntity();

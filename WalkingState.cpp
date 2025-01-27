@@ -4,12 +4,15 @@
 #include "LemonadeStandState.h"
 #include "FishingState.h"
 #include "RestingState.h" 
+#include "FishSouvenirShopState.h"
 
 std::shared_ptr<WalkingState> WalkingState::instance()
 {
 	static std::shared_ptr< WalkingState> walkingState = std::make_shared< WalkingState>();
 	return walkingState;
 }
+
+
 
 void WalkingState::handle(std::shared_ptr<Fisherman> SPfisherman)
 {
@@ -18,6 +21,15 @@ void WalkingState::handle(std::shared_ptr<Fisherman> SPfisherman)
 	
 	switch (ticks)
 	{
+
+	case 1:
+		if (ticks == destination)
+		{
+			SPfisherman->setCurrentLocation(Fisherman::fishingSouvenirShop);
+			SPfisherman->setCurrentState(FishSouvenirShopState::instance());
+			SPfisherman->setIsWalking(false);
+			ticks = 0;
+		}
 	case 2:
 		if (ticks == destination)
 		{
