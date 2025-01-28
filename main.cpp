@@ -1,26 +1,75 @@
 #include "main.h"
+#include "vector"
 
 int main()
 {
 	
 	TimeManager time;
-	LemonadeStandState lemonnadeStand;
+	std::vector<std::shared_ptr<Fisherman>> fishermen;
+	std::vector<bool> deadFishermen;
+	int randomNumb;
 
 	bool stopPrint = false;
 	bool stopPrint2 = false;
+	bool stopPrint3 = false;
+	bool stopPrint4 = false;
 
-	float tick = 1.0f;
-	float timerTick = 0.0f;
-	float timerRefilShop = 0.0f;
-	static float realTime = 0.0f;
+	double tick = 1.0f;
+	double timerTick = 0.0f;
+	double timerRefilShop = 0.0f;
+	static double realTime = 0.0f;
 
 	auto fisherman = std::make_shared<Fisherman>();
 	auto fisherman2 = std::make_shared<Fisherman>();
+	/*auto fisherman3 = std::make_shared<Fisherman>();
+	auto fisherman4 = std::make_shared<Fisherman>();*/
 
 	fisherman->setEntityID(1);
-	fisherman2->setEntityID(2);
 	fisherman->setName("Gangdam");
+	fisherman2->setEntityID(2);
 	fisherman2->setName("Gandalf");
+	//fisherman3->setEntityID(3);
+	//fisherman3->setName("Gnyrf");
+	//fisherman4->setEntityID(4);
+	//fisherman4->setName("Grubb");
+
+	fishermen.push_back(fisherman);
+	fishermen.push_back(fisherman2);
+	/*fishermen.push_back(fisherman3);
+	fishermen.push_back(fisherman4);*/
+
+	for (int i = 0; i < fishermen.size(); i++) // some randomizing stats
+	{
+		randomNumb = rand() % 4;
+
+		switch (i)
+		{
+		case 1:
+			fisherman = std::make_shared<Fisherman>(randomNumb, randomNumb,randomNumb);
+			break;
+		case 2:
+			fisherman2 = std::make_shared<Fisherman>(randomNumb, randomNumb, randomNumb);
+			break;
+		default:
+			break;
+		}
+	
+	}
+	
+	
+
+
+	
+
+	
+
+
+	
+
+	deadFishermen.push_back(stopPrint);
+	deadFishermen.push_back(stopPrint2);
+	/*deadFishermen.push_back(stopPrint3);
+	deadFishermen.push_back(stopPrint4);*/
 
 	while(true) // tick update
 	{
@@ -35,42 +84,30 @@ int main()
 
 		if (timerTick >=  tick && timerTick <= tick + 0.1f)
 		{
-			
-			
-			if (!fisherman->isDead())
+			for (int i = 0; i < fishermen.size(); i++)
 			{
-				time.clockInGame.updateTime(deltaTime.count());
-				fisherman->update(fisherman);
+				if (!fishermen[i]->isDead())
+				{
+					time.clockInGame.updateTime(deltaTime.count());
+					fishermen[i]->update(fishermen[i]);
+				}
+				else if (fishermen[i]->isDead() && !deadFishermen[i])
+				{
+					time.clockInGame.updateTime(deltaTime.count());
+					std::cout << "\n[name]: " << fishermen[i]->getName() << "\n[ID]: " << fishermen[i]->getEntityID() << "\n\n*DEAD*\n\n";
+					std::cout << "cause of death:\nhunger: " << fishermen[i]->getFood() << "\nwater: " << fishermen[i]->getWater() << "\nfatigue: " << fishermen[i]->getFatigue() << std::endl;
+					deadFishermen[i] = true;
+				}
 			}
-			if (!fisherman2->isDead())
-			{
-				time.clockInGame.updateTime(deltaTime.count());
-				fisherman2->update(fisherman2);
-			}
-
-			if (fisherman->isDead() && !stopPrint)
-			{
-				time.clockInGame.updateTime(deltaTime.count());
-				std::cout << "\n[name]: " << fisherman->getName() << "\n[ID]: " << fisherman->getEntityID() << "\n*DEAD*\n\n\n\n";
-				std::cout << "cause of death:\nhunger: " << fisherman->getFood() << "\nwater: " << fisherman->getWater() << "\nfatigue: " << fisherman->getFatigue() << std::endl;
-				stopPrint = true;
-			}
-
-			if (fisherman2->isDead() && !stopPrint2)
-			{
-				time.clockInGame.updateTime(deltaTime.count());
-				std::cout << "\n[name]: " << fisherman->getName() << "\n[ID]: " << fisherman2->getEntityID() << "\n*DEAD*\n\n\n\n";
-				std::cout << "cause of death:\nhunger: " << fisherman2->getFood() << "\nwater: " << fisherman2->getWater() << "\nfatigue: " << fisherman2->getFatigue() << std::endl;
-				stopPrint2 = true;
-			}
-			
-			lemonnadeStand.refilLemonadeStock(timerRefilShop);
-			
 
 			timerRefilShop = 0.0f;
 			timerTick = 0.0f;
 		}
 		
+		/*for (int i = 0; i < 3; i++)
+		{
+			std::cout << rand() % 4 << " " << std::endl;
+		}*/
 
 		//std::cout << "deltaTime is: " << deltaTime.count() * 1000 << " milliseconds" << std::endl;
 		//std::cout << "time is: " << std::fixed << std::setprecision(1) << realTime << " seconds" << std::endl;

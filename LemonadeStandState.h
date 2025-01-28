@@ -6,12 +6,8 @@ class LemonadeStandState : public State<Fisherman>
 public:
 	struct lemonadeDrink
 	{
-		int drink = 33;
+		int drink = 60;
 	};
-
-private:
-	unsigned stockOfLemonade;
-
 public:
 	LemonadeStandState();
 	static std::shared_ptr<LemonadeStandState> instance();
@@ -20,5 +16,4 @@ public:
 	void exitState(std::shared_ptr<Fisherman> SPfisherman) override;
 
 	void setRandomWorkInstance(std::shared_ptr<Fisherman> SPfisherman);
-	void refilLemonadeStock(float time);
 };

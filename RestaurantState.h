@@ -8,10 +8,8 @@ class RestaurantState : public State<Fisherman>
 public:
 	struct roastedFood
 	{
-		int roastedChicken = 13;
+		int roastedChicken = 39;
 	};
-private:
-	int roastedFoodStock;
 public:
 	RestaurantState();
 	
@@ -22,5 +20,4 @@ public:
 
 
 	void setRandomWorkInstance(std::shared_ptr<Fisherman> SPfisherman);
-	void refilRoastedFoodStock(float time);
 };

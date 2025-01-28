@@ -8,8 +8,8 @@ TimeManager::TimeManager()
 	setMilliseconds(std::chrono::duration_cast<std::chrono::milliseconds>(getDuration()).count());
 	setPrevousTime(getCurrentTime());
 
-	float timer = 0.0f;
-	float realTime = 0.0f;
+	double timer = 0.0f;
+	double realTime = 0.0f;
 
 }
 
@@ -59,10 +59,10 @@ long long TimeManager::getTimeMilliseconds()
 	return this->milliseconds;
 }
 
-void TimeManager::clockInGame::updateTime(float realTimeSeconds)
+void TimeManager::clockInGame::updateTime(double realTimeSeconds)
 {
 	// Each real second equals 24 in-game minutes
-	float inGameMinutes = realTimeSeconds * 24.0f;  // 1 real second = 24 min
+	double inGameMinutes = realTimeSeconds * 24.0f;  // 1 real second = 24 min
 	min += inGameMinutes;
 	days = min / scaleFactor;
 

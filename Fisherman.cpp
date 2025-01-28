@@ -11,26 +11,36 @@
 #include <cstdlib> 
 #include <ctime>
 
-std::shared_ptr<State<Fisherman>> Fisherman::randomInstanceGenerator(int num)
+void Fisherman::setRandomInstanceGenerator(int num)
 {
-	srand(static_cast<unsigned>(time(0)));
 
 	int randomStateIndex = rand() % num;
 
-	std::shared_ptr<State<Fisherman>> randomState;
 	switch (randomStateIndex)
 	{
 	case 0:
-		return randomState = FishingState::instance();
+		setDestination(Fisherman::locationType::market);
+		this->currentState = std::make_shared<WalkingState>();;
+		break;
 	case 1:
-		return randomState = RestaurantState::instance();
+		setDestination(Fisherman::locationType::pond);
+		this->currentState = std::make_shared<WalkingState>();;
+		break;
 	case 2:
-		return randomState = LemonadeStandState::instance();
+		setDestination(Fisherman::locationType::fishingSouvenirShop);
+		this->currentState = std::make_shared<WalkingState>();
+		break;
 	case 3: 
-		return randomState = RestingState::instance();
+		setDestination(Fisherman::locationType::house);
+		this->currentState = std::make_shared<WalkingState>();
+		break;
 	case 4:
-		return randomState = FishSouvenirShopState::instance();
-
+		setDestination(Fisherman::locationType::restaurant);
+		this->currentState = std::make_shared<WalkingState>();
+		break;
+	case 5:
+		setDestination(Fisherman::locationType::lemonadeStand);
+		this->currentState = std::make_shared<WalkingState>();
 
 	default:
 		break;
@@ -38,18 +48,78 @@ std::shared_ptr<State<Fisherman>> Fisherman::randomInstanceGenerator(int num)
 
 }
 
+void Fisherman::setRandomWorkInstance(int num)
+{
+	int randomStateIndex = rand() % num;
+
+	switch (randomStateIndex)
+	{
+	case 0:
+		setDestination(Fisherman::locationType::fishingSouvenirShop);
+		this->currentState = std::make_shared<WalkingState>();;
+		break;
+	case 1:
+		setDestination(Fisherman::locationType::pond);
+		this->currentState = std::make_shared<WalkingState>();;
+		break;
+
+	default:
+		break;
+	}
+
+}
+
+void Fisherman::setRandomFreeTimeInstance(int num)
+{
+	int randomStateIndex = rand() % num;
+
+	switch (randomStateIndex)
+	{
+	case 0:
+		setDestination(Fisherman::locationType::restaurant);
+		this->currentState = std::make_shared<WalkingState>();
+		break;
+	case 1:
+		setDestination(Fisherman::locationType::lemonadeStand);
+		this->currentState = std::make_shared<WalkingState>();
+		break;
+	case 2:
+		setDestination(Fisherman::locationType::house);
+		this->currentState = std::make_shared<WalkingState>();
+	default:
+		break;
+	}
+}
+
 Fisherman::Fisherman()
 {
+
+	srand(static_cast<unsigned>(time(0)));
+
 	this->setEntityID(0);
 	this->name = "unnamed";
-	this->currentState = randomInstanceGenerator(5);
 	this->fatigue = 0;
 	this->water = 200;
 	this->food = 200;
 	this->moneyInBank = 200;
+	this->fishCarried = 2;
+	this->isWalking = false;
+
+	//reset ticks
+	this->setTicks(0);
+
+}
+
+Fisherman::Fisherman(int pFood, int pWater, int pMoneyInBank)
+{
+	this->fatigue = 0;
+	this->water = 100 + 10 * pWater;
+	this->food = 100 + 10 * pFood;
+	this->moneyInBank = 200 + 10 * pMoneyInBank;
 	this->fishCarried = 0;
 	this->isWalking = false;
 }
+
 void Fisherman::setCurrentLocation(locationType location)
 {
 	this->currentLocation = location;
@@ -58,14 +128,25 @@ Fisherman::locationType Fisherman::getCurrentLocation()
 {
 	return this->currentLocation;
 }
+void Fisherman::setDestination(locationType location)
+{
+	this->destination = location;
+}
+
+Fisherman::locationType Fisherman::getDestination()
+{
+	return this->destination;
+}
+
+
 void Fisherman::setCurrentState(std::shared_ptr< State<Fisherman>> newState)
 {
 
 	assert(currentState && newState);
 	
-	//currentState->exitState(shared_from_this());
+	currentState->exitState(shared_from_this());
 	currentState = newState;
-	//currentState->enterState(shared_from_this());
+	currentState->enterState(shared_from_this());
 }
 
 std::shared_ptr< State<Fisherman>> Fisherman::getCurrentState()
@@ -85,16 +166,16 @@ void Fisherman::update(std::shared_ptr<Fisherman> fisherman)
 	
 	water -= 3;
 	food -= 1;
-	if (currentState)
+
+	if(fisherman->getCurrentState() == nullptr)
+	{
+		setRandomInstanceGenerator(6);
+	}
+
+	else
 	{
 		this->currentState->handle(shared_from_this());
 	}
-
-	
-	
-	
-
-	
 }
 
 void Fisherman::setName(std::string newName)
@@ -164,7 +245,7 @@ unsigned int Fisherman::getFatigue()
 
 bool Fisherman::isFishingBagFull()
 {
-	return this->fishCarried >= 10;
+	return this->fishCarried >= 7;
 }
 
 bool Fisherman::isThirsty()
@@ -179,12 +260,12 @@ bool Fisherman::isHungry()
 
 bool Fisherman::isFatigue()
 {
-	return this->fatigue >= 70;
+	return this->fatigue >= 150;
 }
 
 bool Fisherman::isDead()
 {
-	if (this->fatigue >= 100 || this->water <= 0 || this->food <= 0)
+	if (this->fatigue >= 200 || this->water <= 0 || this->food <= 0)
 		return true;
 	else
 		return false;
@@ -198,6 +279,21 @@ void Fisherman::setIsWalking(bool walking)
 bool Fisherman::getIsWalking()
 {
 	return this->isWalking;
+}
+
+void Fisherman::addTicks(int ticks)
+{
+	this->ticks += ticks;
+}
+
+void Fisherman::setTicks(int ticks)
+{
+	this->ticks = ticks;
+}
+
+int Fisherman::getTicks()
+{
+	return this->ticks;
 }
 
 

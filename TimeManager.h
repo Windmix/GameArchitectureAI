@@ -17,10 +17,10 @@ public:
 
 	struct clockInGame
 	{
-		float min = 0.0f;
-		float days = 0.0f;
-		float scaleFactor = 1440.0f;
-		void updateTime(float realTimeSeconds);
+		double min = 0.0f;
+		double days = 0.0f;
+		double scaleFactor = 1440.0f;
+		void updateTime(double realTimeSeconds);
 	};
 
 	TimeManager::clockInGame clockInGame;

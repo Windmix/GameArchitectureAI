@@ -15,12 +15,12 @@ public:
 	//locations
 	enum locationType
 	{
-		house = 6,
-		pond = 5,
-		lemonadeStand = 3,
-		restaurant = 4,
-		market = 2,
-		fishingSouvenirShop = 1,
+		house,
+		pond,
+		lemonadeStand,
+		restaurant,
+		market,
+		fishingSouvenirShop,
 	};
 
 	BaseGameEntity();

@@ -19,22 +19,32 @@ private:
 	std::shared_ptr<State<Fisherman>> previousState;
 	std::shared_ptr<State<Fisherman>> globalState;
 
+	//locations
+	locationType previousLocation;
+	locationType destination;
 	locationType currentLocation;
 	
 
-	unsigned int fishCarried;
+	int fishCarried;
 	int moneyInBank;
 	int water = 200;
 	int food = 200;
 	int fatigue = 200;
 
+	//inner clock
+	int ticks;
+
 	bool isWalking;
 private:
-	std::shared_ptr<State<Fisherman>> randomInstanceGenerator(int num);
+	void setRandomInstanceGenerator(int num);
+	
+
 public:
 	Fisherman();
+	Fisherman(int pFood, int pWater, int pMoneyInBank);
 
-
+	void setRandomWorkInstance(int num);
+	void setRandomFreeTimeInstance(int num);
 	// ID and update
 	void update(std::shared_ptr<Fisherman> fisherman) override;
 	void setName(std::string newName);
@@ -43,8 +53,10 @@ public:
 	// location and state
 	void setCurrentLocation(locationType location);
 	locationType getCurrentLocation();
+	void setDestination(locationType location);
+	locationType getDestination();
 
-	void setCurrentState(std::shared_ptr< State<Fisherman>> newtate);
+	void setCurrentState(std::shared_ptr< State<Fisherman>> newState);
 	std::shared_ptr< State<Fisherman>> getCurrentState();
 	void RevertToPrevousState();
 
@@ -74,4 +86,8 @@ public:
 
 	void setIsWalking(bool walking);
 	bool getIsWalking();
+
+	void addTicks(int ticks);
+	void setTicks(int ticks);
+	int getTicks();
 };

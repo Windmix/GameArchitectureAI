@@ -12,103 +12,75 @@ std::shared_ptr<WalkingState> WalkingState::instance()
 	return walkingState;
 }
 
-
-
 void WalkingState::handle(std::shared_ptr<Fisherman> SPfisherman)
 {
-	ticks++;
-	std::cout << "\n[name]: " << SPfisherman->getName() << "\n[ID]: " << SPfisherman->getEntityID() << "\n walking.. distance: " << ticks <<" | " << destination <<" distantUnits" << std::endl;
 	
-	switch (ticks)
+	std::cout << "["<< SPfisherman->getName() << "] [ID]: " << SPfisherman->getEntityID() << "  currently walking.. distance: " << SPfisherman->getTicks() <<" | 3"  <<" distantUnits" << std::endl;
+	
+	if (SPfisherman->getTicks() == 3)
 	{
-
-	case 1:
-		if (ticks == destination)
+		if (SPfisherman->getDestination() == Fisherman::locationType::fishingSouvenirShop)
 		{
-			SPfisherman->setCurrentLocation(Fisherman::fishingSouvenirShop);
+			SPfisherman->setCurrentLocation(SPfisherman->getDestination());
 			SPfisherman->setCurrentState(FishSouvenirShopState::instance());
 			SPfisherman->setIsWalking(false);
-			ticks = 0;
+			SPfisherman->setTicks(0);
 		}
-	case 2:
-		if (ticks == destination)
+		else if (SPfisherman->getDestination() == Fisherman::locationType::market)
 		{
-			SPfisherman->setCurrentLocation(Fisherman::market);
+			SPfisherman->setCurrentLocation(SPfisherman->getDestination());
 			SPfisherman->setCurrentState(MarketState::instance());
 			SPfisherman->setIsWalking(false);
-			ticks = 0;
+			SPfisherman->setTicks(0);
 		}
-		break;
-	case 3:
-		if (ticks == destination)
+		else if (SPfisherman->getDestination() == Fisherman::locationType::lemonadeStand)
 		{
-			SPfisherman->setCurrentLocation(Fisherman::lemonadeStand);
+			SPfisherman->setCurrentLocation(SPfisherman->getDestination());
 			SPfisherman->setCurrentState(LemonadeStandState::instance());
 			SPfisherman->setIsWalking(false);
-			ticks = 0;
+			SPfisherman->setTicks(0);
 		}
-			
-		break;
-	case 4:
-		if (ticks == destination)
+		else if (SPfisherman->getDestination() == Fisherman::locationType::restaurant)
 		{
-			SPfisherman->setCurrentLocation(Fisherman::restaurant);
+			SPfisherman->setCurrentLocation(SPfisherman->getDestination());
 			SPfisherman->setCurrentState(RestaurantState::instance());
 			SPfisherman->setIsWalking(false);
-			ticks = 0;
+			SPfisherman->setTicks(0);
 		}
-		break;
-	case 5:
-		if (ticks == destination)
+		else if (SPfisherman->getDestination() == Fisherman::locationType::pond)
 		{
-			SPfisherman->setCurrentLocation(Fisherman::pond);
+			SPfisherman->setCurrentLocation(SPfisherman->getDestination());
 			SPfisherman->setCurrentState(FishingState::instance());
 			SPfisherman->setIsWalking(false);
-			ticks = 0;
+			SPfisherman->setTicks(0);
 		}
-		break;
-	case 6:
-		if (ticks == destination)
-
+		else if (SPfisherman->getDestination() == Fisherman::locationType::house)
 		{
-			SPfisherman->setCurrentLocation(Fisherman::house);
+			SPfisherman->setCurrentLocation(SPfisherman->getDestination());
 			SPfisherman->setCurrentState(RestingState::instance());
 			SPfisherman->setIsWalking(false);
-			ticks = 0;
+			SPfisherman->setTicks(0);
 		}
-		break;
-
-	default:
-		break;
-
+	}
+	if (SPfisherman->getTicks() > 3)
+	{
+		SPfisherman->setTicks(0);
+	}
+	else
+	{
+		SPfisherman->addTicks(1);
 	}
 }
 
 void WalkingState::enterState(std::shared_ptr<Fisherman> SPfisherman)
 {
-	std::cout << "\n[name]: " << SPfisherman->getName() << "\n[ID]: " << SPfisherman->getEntityID() <<
-		"\n Begin to walk.." << std::endl;
-	ticks = 0;
+	std::cout << "[" << SPfisherman->getName() << "] [ID]: " << SPfisherman->getEntityID() <<
+		" Begin to walk..\n " << std::endl;
 	
 }
 
 void WalkingState::exitState(std::shared_ptr<Fisherman> SPfisherman)
 {
-	std::cout << "\n[name]: " << SPfisherman->getName() << "\n[ID]: " << SPfisherman->getEntityID() <<
-		"\n stop walking.." << std::endl;
-}
-
-void WalkingState::setDestination(int destinationValue)
-{
-	this->destination = destinationValue;
-}
-
-int WalkingState::getDestination()
-{
-	return this->destination;
-}
-
-int WalkingState::getTicks()
-{
-	return this->ticks;
+	std::cout << "[" << SPfisherman->getName() << "] [ID]: " << SPfisherman->getEntityID() <<
+		" stop walking..\n " << std::endl;
 }
