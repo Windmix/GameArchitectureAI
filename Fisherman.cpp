@@ -188,17 +188,17 @@ std::string Fisherman::getName()
 	return this->name;
 }
 
-void Fisherman::addFishCarried(unsigned int fish)
+void Fisherman::addFishCarried(int fish)
 {
 	this->fishCarried += fish;
 }
 
-unsigned int Fisherman::getFishCarried()
+int Fisherman::getFishCarried()
 {
 	return this->fishCarried;
 }
 
-void Fisherman::eatFood(unsigned int food)
+void Fisherman::eatFood(int food)
 {
 	this->food += food;
 }
@@ -218,12 +218,12 @@ int Fisherman::getMoneyInBank()
 	return this->moneyInBank;
 }
 
-void Fisherman::drinkWater(unsigned int water)
+void Fisherman::drinkWater(int water)
 {
 	this->water += water;
 }
 
-unsigned int Fisherman::getWater()
+int Fisherman::getWater()
 {
 	return this->water;
 }
@@ -238,7 +238,7 @@ void Fisherman::ResetFatigue(int val)
 	this->fatigue = val;
 }
 
-unsigned int Fisherman::getFatigue()
+int Fisherman::getFatigue()
 {
 	return this->fatigue;
 }

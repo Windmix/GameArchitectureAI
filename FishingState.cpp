@@ -19,7 +19,9 @@ std::shared_ptr<FishingState> FishingState::instance()
 
 void FishingState::handle(std::shared_ptr<Fisherman> SPfisherman)
 {
-	SPfisherman->addFishCarried(1);
+	int randomFish = 1+rand() % 4;
+
+	SPfisherman->addFishCarried(randomFish);
 	SPfisherman->IncreaseFatigue(3);
 	std::cout << "[" << SPfisherman->getName() << "] [ID]: " << SPfisherman->getEntityID() << 
 		" [Money] " << SPfisherman->getMoneyInBank() << " $ [fish]: " << SPfisherman->getFishCarried() <<

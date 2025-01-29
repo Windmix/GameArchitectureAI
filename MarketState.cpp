@@ -13,16 +13,15 @@ std::shared_ptr<MarketState> MarketState::instance()
 void MarketState::handle(std::shared_ptr<Fisherman> SPfisherman)
 {
 	int luckyNumber = 7;
-	srand(static_cast<unsigned>(time(0)));
 
-	int randomMultiplier = rand() % luckyNumber;
+	int randomMultiplier =rand() % luckyNumber;
 
 	SPfisherman->addFishCarried(-1);
-	SPfisherman->addMoneyInBank(20 * randomMultiplier);
+	SPfisherman->addMoneyInBank(10 + 20 * randomMultiplier);
 	SPfisherman->IncreaseFatigue(4);
 
 	std::cout << "[" << SPfisherman->getName() << "] [ID]: " << SPfisherman->getEntityID() << " [fish]:" << SPfisherman->getFishCarried() <<
-		" ~ sold Fish for "<< 20 * randomMultiplier << "$ [Money] " << SPfisherman->getMoneyInBank() << " $ " << std::endl;
+		" ~ sold Fish for "<< 10 + 20 * randomMultiplier << "$ [Money] " << SPfisherman->getMoneyInBank() << " $ " << std::endl;
 
 	if (SPfisherman->getFishCarried() <= 0)
 	{
@@ -106,7 +105,6 @@ void MarketState::exitState(std::shared_ptr<Fisherman> SPfisherman)
 void MarketState::setRandomWorkInstance(std::shared_ptr<Fisherman> SPfisherman)
 {
 	int interval = 1; // between 0,1
-	srand(static_cast<unsigned>(time(0)));
 
 	int randomDice = rand() % interval;
 

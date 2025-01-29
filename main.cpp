@@ -1,9 +1,9 @@
 #include "main.h"
 #include "vector"
+#include "EntityManager.h"
 
 int main()
 {
-	
 	TimeManager time;
 	std::vector<std::shared_ptr<Fisherman>> fishermen;
 	std::vector<bool> deadFishermen;
@@ -32,6 +32,11 @@ int main()
 	//fisherman3->setName("Gnyrf");
 	//fisherman4->setEntityID(4);
 	//fisherman4->setName("Grubb");
+
+	Entity_Manager->registerEntity(fisherman);
+	Entity_Manager->registerEntity(fisherman2);
+	//Entity_Manager->registerEntity(fisherman3);
+	//Entity_Manager->registerEntity(fisherman4);
 
 	fishermen.push_back(fisherman);
 	fishermen.push_back(fisherman2);

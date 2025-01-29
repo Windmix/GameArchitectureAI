@@ -61,21 +61,21 @@ public:
 	void RevertToPrevousState();
 
 	//Inventory Stuff
-	void addFishCarried(unsigned int fish);
-	unsigned int getFishCarried();
+	void addFishCarried(int fish);
+	int getFishCarried();
 
-	void eatFood(unsigned int food);
+	void eatFood(int food);
 	int getFood();
 
 	void addMoneyInBank(int money);
 	int getMoneyInBank();
 
-	void drinkWater(unsigned int water);
-	unsigned int getWater();
+	void drinkWater(int water);
+	int getWater();
 
 	void IncreaseFatigue(int fatigueLevel);
 	void ResetFatigue(int val);
-	unsigned int getFatigue();
+	int getFatigue();
 
 	//conditions
 	bool isFishingBagFull();

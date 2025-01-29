@@ -112,7 +112,6 @@ void RestaurantState::exitState(std::shared_ptr<Fisherman> SPfisherman)
 void RestaurantState::setRandomWorkInstance(std::shared_ptr<Fisherman> SPfisherman)
 {
 	int interval = 1; // between 0,1
-	srand(static_cast<unsigned>(time(0)));
 
 	int randomDice = rand() % interval;
 

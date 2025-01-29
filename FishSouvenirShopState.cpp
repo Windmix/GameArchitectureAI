@@ -93,7 +93,6 @@ void FishSouvenirShopState::exitState(std::shared_ptr<Fisherman> SPfisherman)
 void FishSouvenirShopState::randomizerSetSouvenirs()
 {
 	int luckyNumber = 6;
-	srand(static_cast<unsigned>(time(0)));
 
 	int randomIndex = rand() % luckyNumber;
 

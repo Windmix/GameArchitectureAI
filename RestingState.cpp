@@ -14,27 +14,30 @@ void RestingState::handle(std::shared_ptr<Fisherman> SPfisherman)
 {
 	SPfisherman->setDestination(Fisherman::locationType::house);
 
-	SPfisherman->IncreaseFatigue(-10);
+	SPfisherman->IncreaseFatigue(-30);
 	SPfisherman->eatFood(1); //to componsate the usage of food while sleep
 	SPfisherman->drinkWater(2); // to componsate the usage of water while sleep
 
 	std::cout << "[" << SPfisherman->getName()<< "] [ID]: " << SPfisherman->getEntityID()<<" [Money] " << SPfisherman->getMoneyInBank()<< " $ [fish]: " << SPfisherman->getFishCarried() <<" [fatigue]: " << SPfisherman->getFatigue() <<" ZzzZzzzZz " << std::endl;
 
-	if (SPfisherman->getFatigue() > 270) // reset fatigue on if fisherman starts on home and sleep 
+	if (SPfisherman->getFatigue() == NULL) // reset fatigue on if fisherman starts on home and sleep 
 	{
 		SPfisherman->ResetFatigue(0);
 	}
 
-	else if (!SPfisherman->getIsWalking())
+	else if (SPfisherman->getMoneyInBank() <= 0)
 	{
+		if (!SPfisherman->getIsWalking())
+		{
+			std::cout << "[" << SPfisherman->getName() << "] [ID]: " << SPfisherman->getEntityID() <<
+				" [Money] " << SPfisherman->getMoneyInBank() << " $ [fish]: " << SPfisherman->getFishCarried() <<
+				" ~ uugghh.. gonna gotta work " << std::endl;
 
-		std::cout << "[" << SPfisherman->getName() << "] [ID]: " << SPfisherman->getEntityID() <<
-			" [Money] " << SPfisherman->getMoneyInBank() << " $ [fish]: " << SPfisherman->getFishCarried() <<
-			" ~ uugghh.. gonna gotta work " << std::endl;
 
-
-		SPfisherman->setIsWalking(true);
-		SPfisherman->setRandomWorkInstance(1);
+			SPfisherman->setIsWalking(true);
+			SPfisherman->setRandomWorkInstance(1);
+		}
+		
 	}
 
 	else if (SPfisherman->isThirsty())
@@ -50,9 +53,9 @@ void RestingState::handle(std::shared_ptr<Fisherman> SPfisherman)
 			SPfisherman->setCurrentState(std::make_shared<WalkingState>());
 		}
 	}
-	else if (SPfisherman->getFatigue() < 5)
+	else if (SPfisherman->getFatigue() < 10)
 	{
-		if (!SPfisherman->getIsWalking())
+		if(!SPfisherman->getIsWalking())
 		{
 			std::cout << "[" << SPfisherman->getName() << "] [ID]: " << SPfisherman->getEntityID() <<
 				" [Money] " << SPfisherman->getMoneyInBank() << " $ [fish]: " << SPfisherman->getFishCarried() <<
