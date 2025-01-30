@@ -2,44 +2,51 @@
 #include <chrono>
 #include <iomanip>
 #include <iostream>
+#include <memory>
+
 class TimeManager
 {
 private:
-	// Get the current time
-	std::chrono::system_clock::time_point currentTime;
-	std::chrono::system_clock::time_point previousTime;
+    // Get the current time
+    std::chrono::system_clock::time_point currentTime;
+    std::chrono::system_clock::time_point previousTime;
 
-	std::chrono::system_clock::duration duration;
-	long long milliseconds;
+    std::chrono::system_clock::duration duration;
+    long long milliseconds;
 
+    // Singleton instance
 
 public:
+    TimeManager();
 
-	struct clockInGame
-	{
-		double min = 0.0f;
-		double days = 0.0f;
-		double scaleFactor = 1440.0f;
-		void updateTime(double realTimeSeconds);
-	};
+    struct clockInGame
+    {
+        double min;
+        double days;
+        double scaleFactor = 1440.0f;
+        void updateTime(double realTimeSeconds);
+        clockInGame();
+    };
 
-	TimeManager::clockInGame clockInGame;
+    double tick = 1.0;
+    double timerTick = 0.0f;
+    double realTime;
+    clockInGame clockInGame;
 
-	TimeManager();
+    // Singleton access method
+    static std::shared_ptr<TimeManager> getInstance();
 
-	void setCurrentTime(std::chrono::system_clock::time_point currentTime);
-	std::chrono::system_clock::time_point getCurrentTime();
+    void setCurrentTime(std::chrono::system_clock::time_point currentTime);
+    std::chrono::system_clock::time_point getCurrentTime();
 
-	void setPrevousTime(std::chrono::system_clock::time_point previousTime);
-	std::chrono::system_clock::time_point getPreviousTime();
+    void setPrevousTime(std::chrono::system_clock::time_point previousTime);
+    std::chrono::system_clock::time_point getPreviousTime();
 
-	void setDuration(std::chrono::system_clock::duration duration);
-	std::chrono::system_clock::duration getDuration();
+    void setDuration(std::chrono::system_clock::duration duration);
+    std::chrono::system_clock::duration getDuration();
 
-	std::chrono::duration<double> getDeltaTime();
+    std::chrono::duration<double> getDeltaTime();
 
-	void setMilliseconds(long long miliseconds);
-	long long getTimeMilliseconds();
-
-
+    void setMilliseconds(long long miliseconds);
+    long long getTimeMilliseconds();
 };

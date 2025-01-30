@@ -27,24 +27,29 @@ private:
 
 	int fishCarried;
 	int moneyInBank;
-	int water = 200;
-	int food = 200;
-	int fatigue = 200;
+	int water;
+	int food;
+	int fatigue;
+	int socialStatus;
 
 	//inner clock
 	int ticks;
 
 	bool isWalking;
+	bool isAvailable;
 private:
 	void setRandomInstanceGenerator(int num);
 	
 
 public:
 	Fisherman();
-	Fisherman(int pFood, int pWater, int pMoneyInBank);
+	Fisherman(int pFood, int pWater, int pMoneyInBank, int socialCredits, int randomNumb);
+	
+	bool handleMessage(Telegram& msg) override;
 
 	void setRandomWorkInstance(int num);
 	void setRandomFreeTimeInstance(int num);
+
 	// ID and update
 	void update(std::shared_ptr<Fisherman> fisherman) override;
 	void setName(std::string newName);
@@ -63,6 +68,8 @@ public:
 	//Inventory Stuff
 	void addFishCarried(int fish);
 	int getFishCarried();
+	void addSocialStatus(int socialStatus);
+	int getSocialStatus();
 
 	void eatFood(int food);
 	int getFood();
@@ -86,6 +93,9 @@ public:
 
 	void setIsWalking(bool walking);
 	bool getIsWalking();
+
+	bool GetisAvailableForSocializing();
+	void SetisAvailableForSocializing(bool Available);
 
 	void addTicks(int ticks);
 	void setTicks(int ticks);

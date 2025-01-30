@@ -9,12 +9,13 @@ private:
 private:
 	EntityMap entityMap;
 	
-
 public:
+
 	class EntityManager() {};
-	static std::shared_ptr<class EntityManager> instance();
+	static std::shared_ptr<EntityManager> instance();
 	void registerEntity(std::shared_ptr<BaseGameEntity> NewEntity);
 	std::shared_ptr<BaseGameEntity> getEntityFromID(int ID);
 	void removeEntity(std::shared_ptr<BaseGameEntity> spEntity);
+	EntityMap getAllEntities();
 };
 #define Entity_Manager EntityManager::instance() // provide easy acess to instance of entityManager

@@ -135,6 +135,7 @@
     <ClCompile Include="LemonadeStandState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MarketState.cpp" />
+    <ClCompile Include="MessageDispatcher.cpp" />
     <ClCompile Include="RestaurantState.cpp" />
     <ClCompile Include="RestingState.cpp" />
     <ClCompile Include="Telegram.cpp" />

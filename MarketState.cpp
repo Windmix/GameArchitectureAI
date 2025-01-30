@@ -32,7 +32,7 @@ void MarketState::handle(std::shared_ptr<Fisherman> SPfisherman)
 				" [Money] " << SPfisherman->getMoneyInBank() << " $ [fish]: " << SPfisherman->getFishCarried() <<
 				" ~ I am empty of fishes, going to fish some more in the pond! " << std::endl;
 
-			setRandomWorkInstance(SPfisherman);
+			SPfisherman->setRandomWorkInstance(1);
 		}
 
 	}
@@ -102,29 +102,7 @@ void MarketState::exitState(std::shared_ptr<Fisherman> SPfisherman)
 	}
 }
 
-void MarketState::setRandomWorkInstance(std::shared_ptr<Fisherman> SPfisherman)
+bool MarketState::onMessage(std::shared_ptr<Fisherman> SPfisherman, Telegram& telegram)
 {
-	int interval = 1; // between 0,1
-
-	int randomDice = rand() % interval;
-
-	switch (randomDice)
-	{
-	case 0:
-	{
-		SPfisherman->setDestination(Fisherman::locationType::pond);
-		SPfisherman->setIsWalking(true);
-		SPfisherman->setCurrentState(std::make_shared<WalkingState>());
-		break;
-	}
-	case 1:
-	{
-		SPfisherman->setDestination(Fisherman::locationType::fishingSouvenirShop);
-		SPfisherman->setIsWalking(true);
-		SPfisherman->setCurrentState(std::make_shared<WalkingState>());
-		break;
-	}
-	default:
-		break;
-	}
+	return false;
 }

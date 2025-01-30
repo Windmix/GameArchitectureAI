@@ -37,3 +37,8 @@ void EntityManager::removeEntity(std::shared_ptr<BaseGameEntity> spEntity)
 	}
 
 }
+
+EntityManager::EntityMap EntityManager::getAllEntities()
+{
+	return this->entityMap;
+}

@@ -72,6 +72,9 @@
     <ClCompile Include="Telegram.cpp">
       <Filter>Resource Files\entity</Filter>
     </ClCompile>
+    <ClCompile Include="MessageDispatcher.cpp">
+      <Filter>Resource Files\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="State.h">

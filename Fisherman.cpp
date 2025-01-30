@@ -8,8 +8,7 @@
 #include "WalkingState.h"
 #include "cassert"
 
-#include <cstdlib> 
-#include <ctime>
+#include "MessageDispatcher.h"
 
 void Fisherman::setRandomInstanceGenerator(int num)
 {
@@ -94,8 +93,6 @@ void Fisherman::setRandomFreeTimeInstance(int num)
 Fisherman::Fisherman()
 {
 
-	srand(static_cast<unsigned>(time(0)));
-
 	this->setEntityID(0);
 	this->name = "unnamed";
 	this->fatigue = 0;
@@ -103,6 +100,8 @@ Fisherman::Fisherman()
 	this->food = 200;
 	this->moneyInBank = 200;
 	this->fishCarried = 2;
+	this->socialStatus = 100;
+	this->setRandomInstanceGenerator(4);
 	this->isWalking = false;
 
 	//reset ticks
@@ -110,14 +109,36 @@ Fisherman::Fisherman()
 
 }
 
-Fisherman::Fisherman(int pFood, int pWater, int pMoneyInBank)
+Fisherman::Fisherman(int pFood, int pWater, int pMoneyInBank, int socialCredits, int randomNumb)
 {
+
 	this->fatigue = 0;
 	this->water = 100 + 10 * pWater;
 	this->food = 100 + 10 * pFood;
 	this->moneyInBank = 200 + 10 * pMoneyInBank;
 	this->fishCarried = 0;
+	this->socialStatus = 30 + 10 * socialCredits;
+	this->setRandomInstanceGenerator(randomNumb);
+
 	this->isWalking = false;
+}
+
+bool Fisherman::handleMessage(Telegram& msg)
+{
+	if (GetisAvailableForSocializing())
+	{
+		std::cout << "[" << this->getName() << "] [ID]: " << this->getEntityID()
+			<< " ~ I'm available! Let's meet up at" << std::endl;
+
+		// Send confirmation back to the sender
+		MessageDispatcher::instance()->DispatchMessage(0,  // No delay
+			this->getEntityID(),
+			msg.getIdSender(),
+			MessageType::msg_socializeResponse,	
+			nullptr);
+		return true;
+	}
+    return false;
 }
 
 void Fisherman::setCurrentLocation(locationType location)
@@ -196,6 +217,16 @@ void Fisherman::addFishCarried(int fish)
 int Fisherman::getFishCarried()
 {
 	return this->fishCarried;
+}
+
+void Fisherman::addSocialStatus(int socialStatus)
+{
+	this->socialStatus += socialStatus;
+}
+
+int Fisherman::getSocialStatus()
+{
+	return this->socialStatus;
 }
 
 void Fisherman::eatFood(int food)
@@ -279,6 +310,16 @@ void Fisherman::setIsWalking(bool walking)
 bool Fisherman::getIsWalking()
 {
 	return this->isWalking;
+}
+
+bool Fisherman::GetisAvailableForSocializing()
+{
+	return this->isAvailable;
+}
+
+void Fisherman::SetisAvailableForSocializing(bool Available)
+{
+	this->isAvailable = Available;
 }
 
 void Fisherman::addTicks(int ticks)

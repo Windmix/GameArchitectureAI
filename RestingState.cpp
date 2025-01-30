@@ -60,7 +60,7 @@ void RestingState::handle(std::shared_ptr<Fisherman> SPfisherman)
 			std::cout << "[" << SPfisherman->getName() << "] [ID]: " << SPfisherman->getEntityID() <<
 				" [Money] " << SPfisherman->getMoneyInBank() << " $ [fish]: " << SPfisherman->getFishCarried() <<
 				" ~ I am fully RESTED!, time to get to work! " << std::endl;
-			setRandomWorkInstance(SPfisherman);
+			SPfisherman->setRandomWorkInstance(1);
 		}
 	}
 
@@ -79,49 +79,9 @@ void RestingState::exitState(std::shared_ptr<Fisherman> SPfisherman)
 	std::cout << "[" << SPfisherman->getName() << "] exits the house" << std::endl;
 }
 
-void RestingState::setRandomWorkInstance(std::shared_ptr<Fisherman> SPfisherman)
+bool RestingState::onMessage(std::shared_ptr<Fisherman> SPfisherman, Telegram& telegram)
 {
-	int interval = 5; // between 0,4
-	srand(static_cast<unsigned>(time(0)));
-
-	int randomDice = rand() % interval;
-
-	switch (randomDice)
-	{
-	case 0:
-	{
-		SPfisherman->setDestination(Fisherman::locationType::pond);
-		SPfisherman->setIsWalking(true);
-		SPfisherman->setCurrentState(std::make_shared<WalkingState>());
-		break;
-	}
-	case 1:
-	{
-		SPfisherman->setDestination(Fisherman::locationType::fishingSouvenirShop);
-		SPfisherman->setIsWalking(true);
-		SPfisherman->setCurrentState(std::make_shared<WalkingState>());
-		break;
-	}
-	case 2:
-	{
-		SPfisherman->setDestination(Fisherman::locationType::pond);
-		SPfisherman->setIsWalking(true);
-		SPfisherman->setCurrentState(std::make_shared<WalkingState>());
-		break;
-	}
-	case 3:
-	{
-		SPfisherman->setDestination(Fisherman::locationType::fishingSouvenirShop);
-		SPfisherman->setIsWalking(true);
-		SPfisherman->setCurrentState(std::make_shared<WalkingState>());
-		break;
-	}
-	case 4:
-		SPfisherman->setDestination(Fisherman::locationType::fishingSouvenirShop);
-		SPfisherman->setIsWalking(true);
-		SPfisherman->setCurrentState(std::make_shared<WalkingState>());
-
-	default:
-		break;
-	}
+	return false;
 }
+
+

@@ -18,6 +18,5 @@ public:
 	void enterState(std::shared_ptr<Fisherman> SPfisherman) override;
 	void exitState(std::shared_ptr<Fisherman> SPfisherman) override;
 
-
-	void setRandomWorkInstance(std::shared_ptr<Fisherman> SPfisherman);
+	bool onMessage(std::shared_ptr<Fisherman> SPfisherman, Telegram& telegram) override;
 };

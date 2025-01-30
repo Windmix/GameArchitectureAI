@@ -90,6 +90,11 @@ void FishSouvenirShopState::exitState(std::shared_ptr<Fisherman> SPfisherman)
 	std::cout << "[" << SPfisherman->getName() << "] exits the souvenirshop" << std::endl;
 }
 
+bool FishSouvenirShopState::onMessage(std::shared_ptr<Fisherman> SPfisherman, Telegram& telegram)
+{
+	return false;
+}
+
 void FishSouvenirShopState::randomizerSetSouvenirs()
 {
 	int luckyNumber = 6;

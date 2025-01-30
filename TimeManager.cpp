@@ -1,3 +1,4 @@
+
 #include "TimeManager.h"
 
 
@@ -11,6 +12,12 @@ TimeManager::TimeManager()
 	double timer = 0.0f;
 	double realTime = 0.0f;
 
+}
+
+std::shared_ptr<TimeManager> TimeManager::getInstance()
+{
+	static std::shared_ptr<TimeManager> time = std::make_shared<TimeManager>();
+	return time;
 }
 
 void TimeManager::setCurrentTime(std::chrono::system_clock::time_point currentTime)
@@ -73,4 +80,10 @@ void TimeManager::clockInGame::updateTime(double realTimeSeconds)
 	//}
 
 	std::cout << std::endl << "min: " << "[" << std::fixed << std::setprecision(1) << min * 1000000*5*2 << "] " << " days: " << "[" << std::fixed << std::setprecision(1) << days * 1000000*5*2 << "]" << std::endl;
+}
+
+TimeManager::clockInGame::clockInGame()
+{
+	this->days = 0;
+	this->min = 0;
 }

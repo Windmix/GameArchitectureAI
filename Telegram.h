@@ -1,18 +1,40 @@
 #pragma once
 #include <string>
+#include <memory>
+
+
+enum class MessageType
+{
+	msg_socializeRestaurant,
+	msg_socializeWorkSouvenir,
+	msg_socializeWorkFishing,
+
+	msg_socializeResponse
+};
+
 class Telegram
 {
 private:
 	int idSender;
 	int idReceiver;
-	std::string message;
+	MessageType message;
+	int dispatchTime;
+	std::shared_ptr<void> extraInfo;
+
 public:
+	MessageType msgType;
+
+	Telegram();
+	Telegram(int delay, int sender, int receiver, MessageType msg, std::shared_ptr<void> ExtraInfo);
 	int getIdSender();
 	void setIdSender(int id);
 
 	int getIdReceiver();
 	void setIdReceiver(int id);
 
-	std::string getMessage() const { return message; }
-	void setMessage(const std::string& msg) { message = msg; }
+	MessageType getMessage();
+	void setMessage(MessageType message);
+
+	int getDispatchTime();
+	void setDispatchTime(int disTime);
 };

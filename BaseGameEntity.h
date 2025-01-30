@@ -1,5 +1,5 @@
 #pragma once
-#include<memory>
+#include "Telegram.h"
 class Fisherman;
 
 class BaseGameEntity
@@ -24,6 +24,8 @@ public:
 	};
 
 	BaseGameEntity();
+
+	virtual bool handleMessage(Telegram& msg) = 0;
 
 	virtual void update(std::shared_ptr<Fisherman> fisherman) = 0;
 

@@ -109,30 +109,8 @@ void RestaurantState::exitState(std::shared_ptr<Fisherman> SPfisherman)
 	}
 }
 
-void RestaurantState::setRandomWorkInstance(std::shared_ptr<Fisherman> SPfisherman)
+bool RestaurantState::onMessage(std::shared_ptr<Fisherman> SPfisherman, Telegram& telegram)
 {
-	int interval = 1; // between 0,1
-
-	int randomDice = rand() % interval;
-
-	switch (randomDice)
-	{
-	case 0:
-	{
-		SPfisherman->setDestination(Fisherman::locationType::pond);
-		SPfisherman->setIsWalking(true);
-		SPfisherman->setCurrentState(std::make_shared<WalkingState>());
-		break;
-	}
-	case 1:
-	{
-		SPfisherman->setDestination(Fisherman::locationType::fishingSouvenirShop);
-		SPfisherman->setIsWalking(true);
-		SPfisherman->setCurrentState(std::make_shared<WalkingState>());
-		break;
-	}
-	default:
-		break;
-	}
+	return false;
 }
 

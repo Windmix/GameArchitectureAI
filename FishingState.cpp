@@ -4,6 +4,8 @@
 #include "RestaurantState.h"
 #include "LemonadeStandState.h"
 #include "WalkingState.h"
+#include "EntityManager.h"
+#include "MessageDispatcher.h"
 
 
 FishingState::FishingState()
@@ -39,6 +41,22 @@ void FishingState::handle(std::shared_ptr<Fisherman> SPfisherman)
 			SPfisherman->setDestination(Fisherman::locationType::market);
             SPfisherman->setIsWalking(true); 
             SPfisherman->setCurrentState(std::make_shared<WalkingState>());
+		}
+	}
+	else if(SPfisherman->getSocialStatus() <= 30)
+	{
+		std::cout << "[" << SPfisherman->getName() << "] [ID]: " << SPfisherman->getEntityID()
+			<< " ~ I feel lonely... Anyone wants to hang out?" << std::endl;
+
+		// Send a message to ALL fishermen
+		for (auto& entityPair : Entity_Manager->getAllEntities())
+		{
+			auto fisherman = std::dynamic_pointer_cast<Fisherman>(entityPair.second);
+
+			if (fisherman && fisherman->getEntityID() != SPfisherman->getEntityID())
+			{
+				MessageDispatcher::instance()->DispatchMessage(0, SPfisherman->getEntityID(), fisherman->getEntityID(),MessageType::msg_socializeWorkFishing, nullptr);
+			}
 		}
 	}
 	else if (SPfisherman->isThirsty())
@@ -101,4 +119,15 @@ void FishingState::exitState(std::shared_ptr<Fisherman> SPfisherman)
 		
 	}
 	
+}
+
+bool FishingState::onMessage(std::shared_ptr<Fisherman> SPfisherman, Telegram& telegram)
+{
+	//switch (telegram.msgType)
+	//{
+	//case MessageType::msg_socializeWorkFishing:
+	//{
+	//	std::cout << "[" << SPfisherman->getName() << "] [ID]: " << SPfisherman->getEntityID() <<" ~ I am really hungry, I will go to the resturant and get a something to eat! " << std::endl;
+	//}
+	return true;
 }

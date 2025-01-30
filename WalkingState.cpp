@@ -84,3 +84,8 @@ void WalkingState::exitState(std::shared_ptr<Fisherman> SPfisherman)
 	std::cout << "[" << SPfisherman->getName() << "] [ID]: " << SPfisherman->getEntityID() <<
 		" stop walking..\n " << std::endl;
 }
+
+bool WalkingState::onMessage(std::shared_ptr<Fisherman> SPfisherman, Telegram& telegram)
+{
+	return false;
+}
