@@ -75,6 +75,9 @@
     <ClCompile Include="MessageDispatcher.cpp">
       <Filter>Resource Files\core</Filter>
     </ClCompile>
+    <ClCompile Include="SocializeState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="State.h">
@@ -121,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="Telegram.h">
       <Filter>Header Files\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="SocializeState.h">
+      <Filter>Header Files\states</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

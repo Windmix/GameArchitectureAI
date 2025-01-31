@@ -1,5 +1,7 @@
 #include "FishSouvenirShopState.h"
 #include "WalkingState.h"
+#include "EntityManager.h"
+#include "MessageDispatcher.h"
 
 FishSouvenirShopState::FishSouvenirShopState()
 {
@@ -14,10 +16,11 @@ std::shared_ptr<FishSouvenirShopState> FishSouvenirShopState::instance()
 
 void FishSouvenirShopState::handle(std::shared_ptr<Fisherman> SPfisherman)
 {
-
+	SPfisherman->SetisAvailableForSocializing(true);
 	randomizerSetSouvenirs();
 ;
 	SPfisherman->addMoneyInBank(price);
+	SPfisherman->addSocialStatus(-2);
 	SPfisherman->IncreaseFatigue(1);
 
 	std::cout << "[" << SPfisherman->getName() << "] [ID]: " << SPfisherman->getEntityID() << " [fish]:" << SPfisherman->getFishCarried() <<
@@ -35,6 +38,25 @@ void FishSouvenirShopState::handle(std::shared_ptr<Fisherman> SPfisherman)
 			SPfisherman->setRandomFreeTimeInstance(3);
 		}
 
+	}
+	else if (SPfisherman->getSocialStatus() <= 30)
+	{
+
+		std::cout << "[" << SPfisherman->getName() << "] [ID]: " << SPfisherman->getEntityID()
+			<< " ~ I feel lonely... Anyone wants to hang out?" << std::endl;
+
+		// Send a message to ALL fishermen
+		for (auto& entityPair : Entity_Manager->getAllEntities())
+		{
+			auto fisherman = std::dynamic_pointer_cast<Fisherman>(entityPair.second);
+
+			if (fisherman && fisherman->getEntityID() != SPfisherman->getEntityID()) // oposite
+			{
+				MessageDispatcher::instance()->DispatchMessage(0, SPfisherman->getEntityID(), fisherman->getEntityID(), MessageType::msg_socializeResponseCall, nullptr);
+
+
+			}
+		}
 	}
 
 	else if (SPfisherman->isThirsty())

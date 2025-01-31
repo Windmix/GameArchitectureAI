@@ -22,10 +22,11 @@ public:
 		market,
 		fishingSouvenirShop,
 	};
+	
 
 	BaseGameEntity();
 
-	virtual bool handleMessage(Telegram& msg) = 0;
+	virtual void handleMessage(Telegram& msg) = 0;
 
 	virtual void update(std::shared_ptr<Fisherman> fisherman) = 0;
 
@@ -34,3 +35,4 @@ public:
 
 	static unsigned int getNextValidID();
 };
+static BaseGameEntity::locationType globalDestination;

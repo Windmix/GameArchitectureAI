@@ -7,8 +7,31 @@
 #include "FishSouvenirShopState.h"
 #include "WalkingState.h"
 #include "cassert"
+#include "string"
+#include "Telegram.h"
 
 #include "MessageDispatcher.h"
+
+std::string Fisherman::getLocationTypeName(locationType type)
+{
+	{
+		static const std::map<locationType, std::string> locationTypeNames =
+		{
+			{locationType::house, "Home"},
+			{locationType::fishingSouvenirShop, "fishingSouvenirShop"},
+			{locationType::restaurant, "restaurant"},
+			{locationType::lemonadeStand, "lemonadeStand"},
+			{locationType::market, "market"},
+			{locationType::pond, "pond" }
+		};
+		auto iteration = locationTypeNames.find(type);
+		if (iteration != locationTypeNames.end())
+		{
+			return iteration->second;
+		}
+		return "does not exist";
+	}
+}
 
 void Fisherman::setRandomInstanceGenerator(int num)
 {
@@ -90,6 +113,30 @@ void Fisherman::setRandomFreeTimeInstance(int num)
 	}
 }
 
+BaseGameEntity::locationType Fisherman::randomLocationGenerator(int num)
+{
+
+	int randomDice = rand() % num;
+	switch (randomDice)
+	{
+	case 0:
+		return locationType::fishingSouvenirShop;
+	case 1:
+		return locationType::house;
+	case 2:
+		return locationType::lemonadeStand;
+	case 3:
+		return locationType::market;
+	case 4:
+		return locationType::restaurant;
+	case 5:
+		return locationType::pond;
+	default:
+		return BaseGameEntity::locationType();
+	}
+}
+
+
 Fisherman::Fisherman()
 {
 
@@ -100,9 +147,10 @@ Fisherman::Fisherman()
 	this->food = 200;
 	this->moneyInBank = 200;
 	this->fishCarried = 2;
-	this->socialStatus = 100;
+	this->socialStatus = 10;
 	this->setRandomInstanceGenerator(4);
 	this->isWalking = false;
+	this->hasAgreed = false;
 
 	//reset ticks
 	this->setTicks(0);
@@ -113,32 +161,94 @@ Fisherman::Fisherman(int pFood, int pWater, int pMoneyInBank, int socialCredits,
 {
 
 	this->fatigue = 0;
-	this->water = 100 + 10 * pWater;
+	this->water = 120 + 10 * pWater;
 	this->food = 100 + 10 * pFood;
 	this->moneyInBank = 200 + 10 * pMoneyInBank;
 	this->fishCarried = 0;
 	this->socialStatus = 30 + 10 * socialCredits;
-	this->setRandomInstanceGenerator(randomNumb);
+	this->currentState = FishingState::instance();
+	setRandomInstanceGenerator(randomNumb);
 
 	this->isWalking = false;
+	this->hasAgreed = false;
 }
 
-bool Fisherman::handleMessage(Telegram& msg)
+void Fisherman::handleMessage(Telegram& msg)
 {
-	if (GetisAvailableForSocializing())
+	switch (msg.getMessage())
 	{
-		std::cout << "[" << this->getName() << "] [ID]: " << this->getEntityID()
-			<< " ~ I'm available! Let's meet up at" << std::endl;
+	case MessageType::msg_socializeResponseCall:
+	{
+		if (GetisAvailableForSocializing())
+		{
+			std::cout << "[" << this->getName() << "] [ID]: " << this->getEntityID()
+				<< " ~ I'm available!" << std::endl;
 
-		// Send confirmation back to the sender
-		MessageDispatcher::instance()->DispatchMessage(0,  // No delay
-			this->getEntityID(),
-			msg.getIdSender(),
-			MessageType::msg_socializeResponse,	
-			nullptr);
-		return true;
+			
+			// Send confirmation back to the sender
+			MessageDispatcher::instance()->DispatchMessage(0, this->getEntityID(), msg.getIdSender(), MessageType::msg_socializeResponseAccept, nullptr);
+
+			
+			break;
+		}
+		else
+		{
+			std::cout << "[" << this->getName() << "] [ID]: " << this->getEntityID() << " ~ No sorry I am busy right now" << std::endl;
+
+			// Send deny back to the sender
+			MessageDispatcher::instance()->DispatchMessage(0, this->getEntityID(), msg.getIdSender(), MessageType::msg_socializeResponseDeny, nullptr);
+			break;
+			
+		}
 	}
-    return false;
+	case MessageType::msg_socializeResponseDeny:
+	{
+		if (!GetisAvailableForSocializing())
+		{
+			// Send confirmation back to the sender
+			std::cout << "[" << this->getName() << "] [ID]: " << this->getEntityID() << " ~ ok, understandable" << std::endl;
+			break;
+		}
+
+	}
+	case MessageType::msg_socializeResponseAccept:
+	{
+		if (GetisAvailableForSocializing())
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				globalDestination = randomLocationGenerator(3);
+			}
+			
+			this->setDestination(globalDestination);
+			std::cout << "[" << this->getName() << "] [ID]: " << this->getEntityID()
+				<< " ~ Great! Meeting up at " << getLocationTypeName(this->getDestination()) << std::endl;
+			MessageDispatcher::instance()->DispatchMessage(0, this->getEntityID(), msg.getIdSender(), MessageType::msg_socializeResponseUnderStood, nullptr);
+
+			
+			this->setHasAgreed(true);
+			this->setIsWalking(true);
+			this->setCurrentState(std::make_shared<WalkingState>());
+			break;
+		}
+		
+	}
+	case MessageType::msg_socializeResponseUnderStood:
+		if (GetisAvailableForSocializing())
+		{
+			std::cout << "[" << this->getName() << "] [ID]: " << this->getEntityID()
+				<< " ~ ok understood" << std::endl;
+
+			this->setDestination(globalDestination);
+			this->setHasAgreed(true);
+			this->setIsWalking(true);
+			this->setCurrentState(std::make_shared<WalkingState>());
+			 
+
+			break;
+		}
+		
+	}
 }
 
 void Fisherman::setCurrentLocation(locationType location)
@@ -320,6 +430,16 @@ bool Fisherman::GetisAvailableForSocializing()
 void Fisherman::SetisAvailableForSocializing(bool Available)
 {
 	this->isAvailable = Available;
+}
+
+bool Fisherman::getHasAgreed()
+{
+	return this->hasAgreed;
+}
+
+void Fisherman::setHasAgreed(bool agreed)
+{
+	this->hasAgreed = agreed;
 }
 
 void Fisherman::addTicks(int ticks)

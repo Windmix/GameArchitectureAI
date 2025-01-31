@@ -24,6 +24,8 @@ public:
 	static std::shared_ptr<MessageDispatcher> instance();
 
 	void DispatchMessage(int delay, int sender, int receiver, MessageType msg, std::shared_ptr<void> ExtraInfo);
+	std::priority_queue<Telegram, std::vector<Telegram>, TelegramComparator> getPriorityQ();
+	void setPriorityQ(std::priority_queue<Telegram, std::vector<Telegram>, TelegramComparator> PriorityQ);
 
 	//send out any delayed messages. This method is called each time through
 	// the main game loop.

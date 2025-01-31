@@ -21,10 +21,13 @@ std::shared_ptr<FishingState> FishingState::instance()
 
 void FishingState::handle(std::shared_ptr<Fisherman> SPfisherman)
 {
+	SPfisherman->SetisAvailableForSocializing(true);
+
 	int randomFish = 1+rand() % 4;
 
 	SPfisherman->addFishCarried(randomFish);
 	SPfisherman->IncreaseFatigue(3);
+	SPfisherman->addSocialStatus(-2);
 	std::cout << "[" << SPfisherman->getName() << "] [ID]: " << SPfisherman->getEntityID() << 
 		" [Money] " << SPfisherman->getMoneyInBank() << " $ [fish]: " << SPfisherman->getFishCarried() <<
 		"  ~ caught a fish! " << std::endl;
@@ -38,6 +41,7 @@ void FishingState::handle(std::shared_ptr<Fisherman> SPfisherman)
 				" [Money] " << SPfisherman->getMoneyInBank() << " $ [fish]: " << SPfisherman->getFishCarried() <<
 				" ~ gonna go sell my fishes! " << std::endl;
 
+			SPfisherman->SetisAvailableForSocializing(false);
 			SPfisherman->setDestination(Fisherman::locationType::market);
             SPfisherman->setIsWalking(true); 
             SPfisherman->setCurrentState(std::make_shared<WalkingState>());
@@ -45,6 +49,7 @@ void FishingState::handle(std::shared_ptr<Fisherman> SPfisherman)
 	}
 	else if(SPfisherman->getSocialStatus() <= 30)
 	{
+
 		std::cout << "[" << SPfisherman->getName() << "] [ID]: " << SPfisherman->getEntityID()
 			<< " ~ I feel lonely... Anyone wants to hang out?" << std::endl;
 
@@ -53,11 +58,14 @@ void FishingState::handle(std::shared_ptr<Fisherman> SPfisherman)
 		{
 			auto fisherman = std::dynamic_pointer_cast<Fisherman>(entityPair.second);
 
-			if (fisherman && fisherman->getEntityID() != SPfisherman->getEntityID())
+			if (fisherman && fisherman->getEntityID() != SPfisherman->getEntityID()) // oposite
 			{
-				MessageDispatcher::instance()->DispatchMessage(0, SPfisherman->getEntityID(), fisherman->getEntityID(),MessageType::msg_socializeWorkFishing, nullptr);
+				MessageDispatcher::instance()->DispatchMessage(0, SPfisherman->getEntityID(), fisherman->getEntityID(), MessageType::msg_socializeResponseCall, nullptr);
+
+
 			}
 		}
+		
 	}
 	else if (SPfisherman->isThirsty())
 	{
@@ -66,7 +74,7 @@ void FishingState::handle(std::shared_ptr<Fisherman> SPfisherman)
 			std::cout << "[" << SPfisherman->getName() << "] [ID]: " << SPfisherman->getEntityID() <<
 				" [Money] " << SPfisherman->getMoneyInBank() << " $ [fish]: " << SPfisherman->getFishCarried() <<
 				" ~ I am really thirsty, I will go to the lemonade stand and get a drink! " << std::endl;
-
+			SPfisherman->SetisAvailableForSocializing(false);
 			SPfisherman->setDestination(Fisherman::locationType::lemonadeStand);
 			SPfisherman->setIsWalking(true);
 			SPfisherman->setCurrentState(std::make_shared<WalkingState>());
@@ -79,6 +87,7 @@ void FishingState::handle(std::shared_ptr<Fisherman> SPfisherman)
 			std::cout << "[" << SPfisherman->getName() << "] [ID]: " << SPfisherman->getEntityID() <<
 				" [Money] " << SPfisherman->getMoneyInBank() << " $ [fish]: " << SPfisherman->getFishCarried() <<
 				" ~ I am EXHAUSTED, I am going to head home and take a nap! " << std::endl;
+			SPfisherman->SetisAvailableForSocializing(false);
 			SPfisherman->setDestination(Fisherman::locationType::house);
 			SPfisherman->setIsWalking(true);
 			SPfisherman->setCurrentState(std::make_shared<WalkingState>());
@@ -91,7 +100,7 @@ void FishingState::handle(std::shared_ptr<Fisherman> SPfisherman)
 			std::cout << "[" << SPfisherman->getName() << "] [ID]: " << SPfisherman->getEntityID() <<
 				" [Money] " << SPfisherman->getMoneyInBank() << " $ [fish]: " << SPfisherman->getFishCarried() <<
 				" ~ I am really hungry, I will go to the resturant and get a something to eat! " << std::endl;
-
+			SPfisherman->SetisAvailableForSocializing(false);
 			SPfisherman->setDestination(Fisherman::locationType::restaurant);
 			SPfisherman->setIsWalking(true);  
 			SPfisherman->setCurrentState(std::make_shared<WalkingState>());
@@ -123,11 +132,15 @@ void FishingState::exitState(std::shared_ptr<Fisherman> SPfisherman)
 
 bool FishingState::onMessage(std::shared_ptr<Fisherman> SPfisherman, Telegram& telegram)
 {
-	//switch (telegram.msgType)
-	//{
-	//case MessageType::msg_socializeWorkFishing:
-	//{
-	//	std::cout << "[" << SPfisherman->getName() << "] [ID]: " << SPfisherman->getEntityID() <<" ~ I am really hungry, I will go to the resturant and get a something to eat! " << std::endl;
-	//}
-	return true;
+	switch (telegram.getMessage())
+	{
+	case MessageType::msg_socializeResponseCall:
+	{
+		SPfisherman->handleMessage(telegram);
+		return true;
+	}
+	default:
+		break;
+	}
+	return false;
 }

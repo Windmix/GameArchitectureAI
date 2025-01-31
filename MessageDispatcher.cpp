@@ -5,6 +5,7 @@
 #include <iostream>
 
 
+// Remove the processed message from the priority queue
 void MessageDispatcher::discharge(std::shared_ptr<BaseGameEntity> spReceiver, Telegram& msg)
 {
     if (!spReceiver)
@@ -12,15 +13,22 @@ void MessageDispatcher::discharge(std::shared_ptr<BaseGameEntity> spReceiver, Te
         std::cerr << "Error: Null receiver in MessageDispatcher::discharge" << std::endl;
         return;
     }
-    if (!spReceiver->handleMessage(msg))
+    spReceiver->handleMessage(msg);
+
+    // Remove the processed message from the priority queue
+    std::priority_queue<Telegram, std::vector<Telegram>, TelegramComparator> tempQ;
+    while (!priorityQ.empty())
     {
-        std::cerr << "Warning: Message not handled by receiver with ID " << spReceiver->getEntityID() << std::endl;
+        Telegram topMsg = priorityQ.top();
+        priorityQ.pop();
+        if (topMsg.getIdReceiver() != msg.getIdReceiver())
+        {
+            tempQ.push(topMsg);
+        }
     }
-
-
-
+    priorityQ = tempQ;
 }
-
+    
 std::shared_ptr<MessageDispatcher> MessageDispatcher::instance()
 {
     static std::shared_ptr<MessageDispatcher> messageDispatcher = std::make_shared<MessageDispatcher>();
@@ -32,7 +40,7 @@ void MessageDispatcher::DispatchMessage(int delay, int sender, int receiver, Mes
     std::shared_ptr<BaseGameEntity> SPreceiver = Entity_Manager->getEntityFromID(receiver);
     auto time = TimeManager::getInstance();
 
-    Telegram telegram(delay, sender, receiver, msg, ExtraInfo);
+    Telegram telegram(delay, sender, receiver, msg, ExtraInfo); // save information
     if (delay <= 0.0f)
     {
         discharge(SPreceiver, telegram);
@@ -43,6 +51,16 @@ void MessageDispatcher::DispatchMessage(int delay, int sender, int receiver, Mes
         telegram.setDispatchTime(currentDay + delay);
         priorityQ.push(telegram);
     }
+}
+
+std::priority_queue<Telegram, std::vector<Telegram>, TelegramComparator> MessageDispatcher::getPriorityQ()
+{
+    return this->priorityQ;
+}
+
+void MessageDispatcher::setPriorityQ(std::priority_queue<Telegram, std::vector<Telegram>, TelegramComparator> PriorityQ)
+{
+    this->priorityQ = PriorityQ;
 }
 
 void MessageDispatcher::dispatchDelayedMessages()

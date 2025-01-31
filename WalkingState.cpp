@@ -5,6 +5,7 @@
 #include "FishingState.h"
 #include "RestingState.h" 
 #include "FishSouvenirShopState.h"
+#include "SocializeState.h"
 
 std::shared_ptr<WalkingState> WalkingState::instance()
 {
@@ -21,45 +22,123 @@ void WalkingState::handle(std::shared_ptr<Fisherman> SPfisherman)
 	{
 		if (SPfisherman->getDestination() == Fisherman::locationType::fishingSouvenirShop)
 		{
-			SPfisherman->setCurrentLocation(SPfisherman->getDestination());
-			SPfisherman->setCurrentState(FishSouvenirShopState::instance());
-			SPfisherman->setIsWalking(false);
-			SPfisherman->setTicks(0);
+			if (SPfisherman->GetisAvailableForSocializing() && SPfisherman->getHasAgreed())
+			{
+				SPfisherman->setCurrentLocation(SPfisherman->getDestination());
+				SPfisherman->setCurrentState(SocializeState::instance());
+				SPfisherman->setHasAgreed(false);
+				SPfisherman->setIsWalking(false);
+				SPfisherman->setTicks(0);
+			}
+			else
+			{
+				SPfisherman->setCurrentLocation(SPfisherman->getDestination());
+				SPfisherman->setCurrentState(FishSouvenirShopState::instance());
+				SPfisherman->addSocialStatus(-2);
+				SPfisherman->setIsWalking(false);
+				SPfisherman->setTicks(0);
+			}
+			
 		}
 		else if (SPfisherman->getDestination() == Fisherman::locationType::market)
 		{
-			SPfisherman->setCurrentLocation(SPfisherman->getDestination());
-			SPfisherman->setCurrentState(MarketState::instance());
-			SPfisherman->setIsWalking(false);
-			SPfisherman->setTicks(0);
+			if (SPfisherman->GetisAvailableForSocializing() && SPfisherman->getHasAgreed())
+			{
+				SPfisherman->setCurrentLocation(SPfisherman->getDestination());
+				SPfisherman->setCurrentState(SocializeState::instance());
+				SPfisherman->setHasAgreed(false);
+				SPfisherman->setIsWalking(false);
+				SPfisherman->setTicks(0);
+			}
+			else
+			{
+				SPfisherman->setCurrentLocation(SPfisherman->getDestination());
+				SPfisherman->setCurrentState(MarketState::instance());
+				SPfisherman->addSocialStatus(-2);
+				SPfisherman->setHasAgreed(false);
+				SPfisherman->setIsWalking(false);
+				SPfisherman->setTicks(0);
+			}
+			
 		}
 		else if (SPfisherman->getDestination() == Fisherman::locationType::lemonadeStand)
 		{
-			SPfisherman->setCurrentLocation(SPfisherman->getDestination());
-			SPfisherman->setCurrentState(LemonadeStandState::instance());
-			SPfisherman->setIsWalking(false);
-			SPfisherman->setTicks(0);
+			if (SPfisherman->GetisAvailableForSocializing() && SPfisherman->getHasAgreed())
+			{
+				SPfisherman->setCurrentLocation(SPfisherman->getDestination());
+				SPfisherman->setCurrentState(SocializeState::instance());
+				SPfisherman->addSocialStatus(-2);
+				SPfisherman->setHasAgreed(false);
+				SPfisherman->setIsWalking(false);
+				SPfisherman->setTicks(0);
+			}
+			else
+			{
+				SPfisherman->setCurrentLocation(SPfisherman->getDestination());
+				SPfisherman->setCurrentState(LemonadeStandState::instance());
+				SPfisherman->setIsWalking(false);
+				SPfisherman->setTicks(0);
+			}
 		}
 		else if (SPfisherman->getDestination() == Fisherman::locationType::restaurant)
 		{
-			SPfisherman->setCurrentLocation(SPfisherman->getDestination());
-			SPfisherman->setCurrentState(RestaurantState::instance());
-			SPfisherman->setIsWalking(false);
-			SPfisherman->setTicks(0);
+			if (SPfisherman->GetisAvailableForSocializing() && SPfisherman->getHasAgreed())
+			{
+				SPfisherman->setCurrentLocation(SPfisherman->getDestination());
+				SPfisherman->setCurrentState(SocializeState::instance());
+				SPfisherman->addSocialStatus(-2);
+				SPfisherman->setHasAgreed(false);
+				SPfisherman->setIsWalking(false);
+				SPfisherman->setTicks(0);
+			}
+			else
+			{
+				SPfisherman->setCurrentLocation(SPfisherman->getDestination());
+				SPfisherman->setCurrentState(RestaurantState::instance());
+				SPfisherman->setIsWalking(false);
+				SPfisherman->setTicks(0);
+			}
+			
 		}
 		else if (SPfisherman->getDestination() == Fisherman::locationType::pond)
 		{
-			SPfisherman->setCurrentLocation(SPfisherman->getDestination());
-			SPfisherman->setCurrentState(FishingState::instance());
-			SPfisherman->setIsWalking(false);
-			SPfisherman->setTicks(0);
+			if (SPfisherman->GetisAvailableForSocializing() && SPfisherman->getHasAgreed())
+			{
+				SPfisherman->setCurrentLocation(SPfisherman->getDestination());
+				SPfisherman->setCurrentState(SocializeState::instance());
+				SPfisherman->addSocialStatus(-2);
+				SPfisherman->setHasAgreed(false);
+				SPfisherman->setIsWalking(false);
+				SPfisherman->setTicks(0);
+			}
+			else
+			{
+				SPfisherman->setCurrentLocation(SPfisherman->getDestination());
+				SPfisherman->setCurrentState(FishingState::instance());
+				SPfisherman->setIsWalking(false);
+				SPfisherman->setTicks(0);
+			}
+			
 		}
 		else if (SPfisherman->getDestination() == Fisherman::locationType::house)
 		{
-			SPfisherman->setCurrentLocation(SPfisherman->getDestination());
-			SPfisherman->setCurrentState(RestingState::instance());
-			SPfisherman->setIsWalking(false);
-			SPfisherman->setTicks(0);
+			if (SPfisherman->GetisAvailableForSocializing() && SPfisherman->getHasAgreed())
+			{
+				SPfisherman->setCurrentLocation(SPfisherman->getDestination());
+				SPfisherman->setCurrentState(SocializeState::instance());
+				SPfisherman->addSocialStatus(-2);
+				SPfisherman->setHasAgreed(false);
+				SPfisherman->setIsWalking(false);
+				SPfisherman->setTicks(0);
+			}
+			else
+			{
+				SPfisherman->setCurrentLocation(SPfisherman->getDestination());
+				SPfisherman->setCurrentState(RestingState::instance());
+				SPfisherman->setIsWalking(false);
+				SPfisherman->setTicks(0);
+			}
+			
 		}
 	}
 	if (SPfisherman->getTicks() > 3)

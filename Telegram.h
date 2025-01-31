@@ -5,11 +5,10 @@
 
 enum class MessageType
 {
-	msg_socializeRestaurant,
-	msg_socializeWorkSouvenir,
-	msg_socializeWorkFishing,
-
-	msg_socializeResponse
+	msg_socializeResponseCall,
+	msg_socializeResponseAccept,
+	msg_socializeResponseDeny,
+	msg_socializeResponseUnderStood,
 };
 
 class Telegram
@@ -22,7 +21,6 @@ private:
 	std::shared_ptr<void> extraInfo;
 
 public:
-	MessageType msgType;
 
 	Telegram();
 	Telegram(int delay, int sender, int receiver, MessageType msg, std::shared_ptr<void> ExtraInfo);

@@ -8,9 +8,13 @@
 template<class entityType>
 class State;
 
+
+
 class Fisherman : public BaseGameEntity, public std::enable_shared_from_this<Fisherman>
 {
 public:
+
+	std::string getLocationTypeName(locationType type);
 
 private:
 	std::string name;
@@ -23,6 +27,7 @@ private:
 	locationType previousLocation;
 	locationType destination;
 	locationType currentLocation;
+	
 	
 
 	int fishCarried;
@@ -37,6 +42,7 @@ private:
 
 	bool isWalking;
 	bool isAvailable;
+	bool hasAgreed;
 private:
 	void setRandomInstanceGenerator(int num);
 	
@@ -45,10 +51,12 @@ public:
 	Fisherman();
 	Fisherman(int pFood, int pWater, int pMoneyInBank, int socialCredits, int randomNumb);
 	
-	bool handleMessage(Telegram& msg) override;
+	void handleMessage(Telegram& msg) override;
 
 	void setRandomWorkInstance(int num);
 	void setRandomFreeTimeInstance(int num);
+
+	locationType randomLocationGenerator(int num);
 
 	// ID and update
 	void update(std::shared_ptr<Fisherman> fisherman) override;
@@ -96,6 +104,8 @@ public:
 
 	bool GetisAvailableForSocializing();
 	void SetisAvailableForSocializing(bool Available);
+	bool getHasAgreed();
+	void setHasAgreed(bool agreed);
 
 	void addTicks(int ticks);
 	void setTicks(int ticks);
