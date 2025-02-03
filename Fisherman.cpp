@@ -9,6 +9,7 @@
 #include "cassert"
 #include "string"
 #include "Telegram.h"
+#include "TimeManager.h"
 
 #include "MessageDispatcher.h"
 
@@ -70,7 +71,7 @@ void Fisherman::setRandomInstanceGenerator(int num)
 
 }
 
-void Fisherman::setRandomWorkInstance(int num)
+void Fisherman::setRandomWorkInstance(int num) // random work, put in number for the intvall
 {
 	int randomStateIndex = rand() % num;
 
@@ -91,7 +92,7 @@ void Fisherman::setRandomWorkInstance(int num)
 
 }
 
-void Fisherman::setRandomFreeTimeInstance(int num)
+void Fisherman::setRandomFreeTimeInstance(int num) // random bn  , put in number for the intvall
 {
 	int randomStateIndex = rand() % num;
 
@@ -175,6 +176,7 @@ Fisherman::Fisherman(int pFood, int pWater, int pMoneyInBank, int socialCredits,
 
 void Fisherman::handleMessage(Telegram& msg)
 {
+	auto globaltime = TimeManager::getInstance(); 
 	switch (msg.getMessage())
 	{
 	case MessageType::msg_socializeResponseCall:
@@ -215,10 +217,7 @@ void Fisherman::handleMessage(Telegram& msg)
 	{
 		if (GetisAvailableForSocializing())
 		{
-			for (int i = 0; i < 4; i++)
-			{
-				globalDestination = randomLocationGenerator(3);
-			}
+			globalDestination = randomLocationGenerator(globaltime->realTime);
 			
 			this->setDestination(globalDestination);
 			std::cout << "[" << this->getName() << "] [ID]: " << this->getEntityID()
@@ -243,8 +242,6 @@ void Fisherman::handleMessage(Telegram& msg)
 			this->setHasAgreed(true);
 			this->setIsWalking(true);
 			this->setCurrentState(std::make_shared<WalkingState>());
-			 
-
 			break;
 		}
 		
@@ -294,7 +291,7 @@ void Fisherman::RevertToPrevousState()
 
 void Fisherman::update(std::shared_ptr<Fisherman> fisherman)
 {
-	
+	socialStatus -= 2;
 	water -= 3;
 	food -= 1;
 

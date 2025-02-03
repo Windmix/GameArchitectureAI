@@ -2,7 +2,7 @@
 #include "State.h"
 #include "Fisherman.h"
 
-class RestingState : public State<Fisherman>
+class RestingState : public State<Fisherman> // resting entities state for fishman
 {
 public:
 

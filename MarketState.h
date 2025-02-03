@@ -1,7 +1,7 @@
 #pragma once
 #include "State.h"
 #include "Fisherman.h"
-class MarketState : public State<Fisherman>
+class MarketState : public State<Fisherman> //marketing entities state for fishman selling
 {
 public:
 	static std::shared_ptr<MarketState> instance();

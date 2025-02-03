@@ -13,7 +13,7 @@ std::shared_ptr<WalkingState> WalkingState::instance()
 	return walkingState;
 }
 
-void WalkingState::handle(std::shared_ptr<Fisherman> SPfisherman)
+void WalkingState::handle(std::shared_ptr<Fisherman> SPfisherman) // walking for entitites
 {
 	
 	std::cout << "["<< SPfisherman->getName() << "] [ID]: " << SPfisherman->getEntityID() << "  currently walking.. distance: " << SPfisherman->getTicks() <<" | 3"  <<" distantUnits" << std::endl;

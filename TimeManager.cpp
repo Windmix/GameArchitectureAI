@@ -2,7 +2,7 @@
 #include "TimeManager.h"
 
 
-TimeManager::TimeManager()
+TimeManager::TimeManager() // handles Time
 {
 	setCurrentTime(std::chrono::system_clock::now());
 	setDuration(getCurrentTime().time_since_epoch());

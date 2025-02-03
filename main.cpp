@@ -21,28 +21,28 @@ int main()
 
 	auto fisherman = std::make_shared<Fisherman>();
 	auto fisherman2 = std::make_shared<Fisherman>();
-	/*auto fisherman3 = std::make_shared<Fisherman>();
-	auto fisherman4 = std::make_shared<Fisherman>();*/
+	auto fisherman3 = std::make_shared<Fisherman>();
+	auto fisherman4 = std::make_shared<Fisherman>();
 
 	fisherman->setEntityID(1);
 	fisherman->setName("Gangdam");
 	fisherman2->setEntityID(2);
 	fisherman2->setName("Gandalf");
-	//fisherman3->setEntityID(3);
-	//fisherman3->setName("Gnyrf");
-	//fisherman4->setEntityID(4);
-	//fisherman4->setName("Grubb");
+	fisherman3->setEntityID(3);
+	fisherman3->setName("Gnyrf");
+	fisherman4->setEntityID(4);
+	fisherman4->setName("Grubb");
 
 	Entity_Manager->registerEntity(fisherman);
 	Entity_Manager->registerEntity(fisherman2);
 	//Entity_Manager->getEntityFromID()
-	//Entity_Manager->registerEntity(fisherman3);
-	//Entity_Manager->registerEntity(fisherman4);
+	Entity_Manager->registerEntity(fisherman3);
+	Entity_Manager->registerEntity(fisherman4);
 
 	fishermen.push_back(fisherman);
 	fishermen.push_back(fisherman2);
-	/*fishermen.push_back(fisherman3);
-	fishermen.push_back(fisherman4);*/
+	fishermen.push_back(fisherman3);
+	fishermen.push_back(fisherman4);
 
 	for (int i = 0; i < fishermen.size(); i++) // some randomizing stats
 	{
@@ -51,11 +51,17 @@ int main()
 
 		switch (i)
 		{
-		case 1:
+		case 0:
 			fisherman = std::make_shared<Fisherman>(rngStats, rngStats,rngStats, rngStats, rngState);
 			break;
-		case 2:
+		case 1:
 			fisherman2 = std::make_shared<Fisherman>(rngStats, rngStats, rngStats, rngStats, rngState);
+			break;
+		case 2:
+			fisherman3 = std::make_shared<Fisherman>(rngStats, rngStats, rngStats, rngStats, rngState);
+			break;
+		case 3:
+			fisherman4 = std::make_shared<Fisherman>(rngStats, rngStats, rngStats, rngStats, rngState);
 			break;
 		default:
 			break;

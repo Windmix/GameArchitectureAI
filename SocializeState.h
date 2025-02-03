@@ -1,7 +1,7 @@
 #pragma once
 #include "State.h"
 #include "Fisherman.h"
-class SocializeState :public State<Fisherman>
+class SocializeState :public State<Fisherman> // socialize entities state for fishman speak
 {
 public:
 	static std::shared_ptr<SocializeState> instance();

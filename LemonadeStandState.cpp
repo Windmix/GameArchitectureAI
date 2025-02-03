@@ -10,7 +10,7 @@ LemonadeStandState::LemonadeStandState()
 {
 }
 
-std::shared_ptr<LemonadeStandState> LemonadeStandState::instance()
+std::shared_ptr<LemonadeStandState> LemonadeStandState::instance() 
 {
 	static std::shared_ptr<LemonadeStandState> lemonadeStandState = std::make_shared<LemonadeStandState>();
     return lemonadeStandState;

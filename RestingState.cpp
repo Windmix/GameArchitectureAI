@@ -6,7 +6,7 @@
 #include "EntityManager.h"
 #include "MessageDispatcher.h"
 
-std::shared_ptr<RestingState> RestingState::instance()
+std::shared_ptr<RestingState> RestingState::instance() 
 {
 	static std::shared_ptr<RestingState> restingState = std::make_shared<RestingState>();
 	return restingState;

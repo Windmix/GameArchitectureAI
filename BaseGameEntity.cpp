@@ -11,7 +11,7 @@ void BaseGameEntity::setID(int value)
 	++nextValidID;
 }
 
-BaseGameEntity::BaseGameEntity()
+BaseGameEntity::BaseGameEntity() // general information of entities
 {
 	entityID = 0;
 	nextValidID = 0;

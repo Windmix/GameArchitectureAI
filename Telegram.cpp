@@ -1,7 +1,7 @@
 #include "Telegram.h"
 
 
-Telegram::Telegram()
+Telegram::Telegram() // know who is calling and who is being called
 {
 	this->dispatchTime = 0;
 	this->idSender = 0;
