@@ -28,5 +28,5 @@ public:
 
 	bool onMessage(std::shared_ptr<Fisherman> SPfisherman, Telegram& telegram) override;
 
-	void randomizerSetSouvenirs();
+	void randomizerSetSouvenirs(); // seller select random items
 };
